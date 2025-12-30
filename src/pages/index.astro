@@ -5,7 +5,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="Home">
   <section class="hero-box">
     <div class="hero-overlay">
-      <div class="hero-label">Archive // Collection 2025</div>
+      <div class="cta-container">
+        <p class="cta-label">Workshop // Available Pieces</p>
+        <a href="https://www.etsy.com/shop/fouza" target="_blank" class="hero-cta-button">
+          Visit the Etsy Shop
+        </a>
+      </div>
+      <div class="hero-meta">Ref. 2025 // Collection Archive</div>
     </div>
   </section>
 
@@ -31,7 +37,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </p>
 
         <p class="cta-text">
-          If you have any questions from what you see here, or if you'd like to order something special for yourself or a loved one, please feel free to <a href="/contact">contact me</a>. You can also visit my <a href="https://etsy.com" target="_blank">Etsy Store</a> to find things to tickle your fancy, or follow the workshop's progress on <a href="https://instagram.com" target="_blank">Instagram</a>.
+          If you have any questions from what you see here, or if you'd like to order something special for yourself or a loved one, please feel free to <a href="/contact">contact me</a>. I also have an <a href="https://www.etsy.com/shop/fouza" target="_blank">Etsy Store</a>, where you can find many things to tickle your fancy.
+          Thanks for taking the time to read my story! If you're dying for more, check out my <a href="https://instagram.com" target="_blank">Instagram account</a>.
         </p>
 
         <div class="signature-block">
@@ -50,128 +57,88 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <style>
-  /* Hero Reservation */
   .hero-box {
     width: 100%;
     height: 800px;
-    background-color: #f4f4f4;
+    background-color: #f9f9f9;
     background-image: url('/site-assets/hero-main.jpg');
     background-size: cover;
     background-position: center;
     position: relative;
     border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .hero-label {
+  /* NEW HERO CTA STYLING */
+  .cta-container {
+    text-align: center;
+    z-index: 10;
+  }
+
+  .cta-label {
+    font-family: 'Special Elite', monospace !important;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: #888;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .hero-cta-button {
+    display: inline-block;
+    padding: 15px 40px;
+    border: 1px solid #000;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .hero-cta-button:hover {
+    background: #000;
+    color: #fff;
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  .hero-meta {
     position: absolute;
     bottom: 40px;
     right: 40px;
     font-size: 10px;
     letter-spacing: 0.5em;
-    color: #999;
+    color: #aaa;
     text-transform: uppercase;
   }
 
-  /* Story Section */
-  .story-section {
-    padding: 120px 0;
-    background: #fff;
-    display: flex;
-    justify-content: center;
-  }
-
-  .story-container {
-    max-width: 700px;
-    width: 100%;
-    padding: 0 40px;
-  }
-
-  .story-header {
-    text-align: left;
-    margin-bottom: 60px;
-    border-left: 1px solid #eee;
-    padding-left: 30px;
-  }
-
-  .blueprint-id {
-    display: block;
-    font-size: 10px;
-    color: #ccc;
-    letter-spacing: 0.3em;
-    margin-bottom: 10px;
-  }
-
-  .story-title {
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    line-height: 1.1;
-  }
-
-  .story-body {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    text-align: justify;
-  }
-
-  .story-body p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #444;
-    letter-spacing: 0.02em;
-  }
-
-  .cta-text {
-    margin-top: 20px;
-    padding: 30px;
-    background: #fafafa;
-    border-radius: 2px;
+  /* RE-ALIGNED STORY STYLES */
+  .story-section { padding: 120px 0; background: #fff; display: flex; justify-content: center; }
+  .story-container { max-width: 700px; width: 100%; padding: 0 40px; }
+  .story-header { text-align: left; margin-bottom: 60px; border-left: 1px solid #eee; padding-left: 30px; }
+  .blueprint-id { display: block; font-size: 10px; color: #ccc; letter-spacing: 0.3em; margin-bottom: 10px; }
+  .story-title { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.1; }
+  .story-body { display: flex; flex-direction: column; gap: 30px; text-align: justify; }
+  .story-body p { font-size: 1.1rem; line-height: 1.8; color: #444; }
+  
+  .cta-text { 
+    margin-top: 20px; 
+    padding: 40px; 
+    background: #fcfcfc; 
+    border-left: 2px solid #eee;
     font-size: 1rem !important;
   }
+  
+  .cta-text a { font-weight: bold; text-decoration: underline; text-underline-offset: 4px; }
 
-  .cta-text a {
-    color: #000;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    transition: color 0.3s;
-  }
+  .signature-block { margin-top: 40px; text-align: left; }
+  .signature-block .name { font-size: 1.8rem; margin-top: 5px; color: #111; }
 
-  .cta-text a:hover {
-    color: #a18a4d;
-  }
-
-  .signature-block {
-    margin-top: 40px;
-    text-align: left;
-  }
-
-  .signature-block .name {
-    font-size: 1.5rem;
-    margin-top: 5px;
-    color: #111;
-  }
-
-  /* Mechanical Footer Decoration */
-  .mechanical-footer {
-    margin-top: 100px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    opacity: 0.3;
-  }
-
+  .mechanical-footer { margin-top: 100px; display: flex; align-items: center; gap: 20px; opacity: 0.3; }
   .long-line { flex: 1; height: 1px; background: #eee; }
-  .gear-dot { 
-    width: 8px; height: 8px; border: 1px solid #000; border-radius: 50%; 
-    position: relative;
-  }
-  .gear-dot::after {
-    content: ''; position: absolute; inset: 2px; background: #000; border-radius: 50%;
-  }
-
-  @media (max-width: 768px) {
-    .hero-box { height: 500px; }
-    .story-title { font-size: 1.8rem; }
-  }
+  .gear-dot { width: 8px; height: 8px; border: 1px solid #000; border-radius: 50%; position: relative; }
 </style>
