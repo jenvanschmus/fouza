@@ -1,50 +1,18 @@
----
-const links = [
-  { name: 'Instagram', url: 'https://instagram.com/yourprofile' },
-  { name: 'YouTube', url: 'https://youtube.com/@yourchannel' },
-  { name: 'Etsy', url: 'https://etsy.com/shop/yourshop' }
-];
----
-
-<header class="site-header">
-  <div class="header-container">
-    <div class="logo-wrapper">
-      <a href="/">
-        <img src="/site-assets/home-logo.png" alt="Logo" class="main-logo" />
-      </a>
-    </div>
-
-    <nav class="main-nav">
-      <div class="internal-links">
-        <a href="/gallery">Gallery</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="external-links">
-        {links.map((link) => (
-          <a href={link.url} target="_blank" rel="noopener noreferrer" class="external-link-item">
-            <img 
-              src={`/external-links/${link.name.toLowerCase()}.png`} 
-              alt="" 
-              class="external-icon"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
-            />
-            <span class="fallback-text">{link.name}</span>
-          </a>
-        ))}
-      </div>
-    </nav>
-  </div>
-</header>
-
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Special+Elite&display=swap');
+  /* 1. Register your custom font from /public/fonts/ */
+  @font-face {
+    font-family: 'Univern';
+    src: url('/fonts/UNIVERN.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* 2. Standard Google Fonts for fallbacks */
+  @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
   :root {
-    --header-height: 100px; /* Your updated size */
+    --header-height: 100px; 
     --logo-scale: 0.8;
   }
 
@@ -84,8 +52,8 @@ const links = [
   .internal-links {
     display: flex;
     gap: 2.5rem;
-    /* Updated to the technical steampunk font */
-    font-family: 'Special Elite', system-ui, serif;
+    /* 3. Apply your custom font here */
+    font-family: 'Univern', sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.15em;
   }
@@ -93,13 +61,13 @@ const links = [
   .internal-links a {
     text-decoration: none;
     color: #1a1a1a;
-    font-size: 0.95rem;
+    font-size: 1.1rem; /* Adjusted for custom font readability */
     transition: all 0.3s ease;
   }
 
   .internal-links a:hover {
-    color: #a18a4d; /* Subtle gold tint on hover */
-    letter-spacing: 0.25em; /* Subtle mechanical expansion effect */
+    color: #a18a4d; 
+    opacity: 0.7;
   }
 
   .divider {
@@ -118,15 +86,5 @@ const links = [
     height: 22px;
     filter: grayscale(100%);
     opacity: 0.4;
-    transition: opacity 0.3s;
-  }
-
-  .external-icon:hover { opacity: 1; }
-
-  .fallback-text {
-    display: none;
-    font-family: 'Special Elite', serif;
-    font-size: 0.75rem;
-    color: #888;
   }
 </style>
