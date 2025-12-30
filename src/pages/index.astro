@@ -9,19 +9,21 @@ import Footer from '../components/Footer.astro';
 		<meta name="viewport" content="width=device-width" />
 		<title>Goldsmith Portfolio</title>
 	</head>
-	<body class="bg-white selection:bg-zinc-200">
+	<body class="bg-white">
 		<Header />
 
-		<main class="pt-16 min-h-screen bg-[#ececec] relative overflow-hidden flex items-center justify-center">
-			<div class="absolute inset-0 pointer-events-none opacity-[0.05]" 
-				 style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 50px 50px;">
+		<main class="pt-16 min-h-[70vh] bg-[#fdfdfd] relative overflow-hidden flex items-center justify-center">
+			<div class="absolute inset-0 pointer-events-none opacity-[0.03]" 
+				 style="background-image: radial-gradient(#000 0.5px, transparent 0.5px); background-size: 30px 30px;">
 			</div>
 
 			<div class="relative z-10 text-center">
-				<div class="w-24 h-24 border border-zinc-300 rounded-full mx-auto mb-6 flex items-center justify-center animate-[spin_20s_linear_infinite]">
-					<div class="w-20 h-20 border-t border-zinc-400 rounded-full"></div>
+				<div class="w-16 h-16 border-[0.5px] border-zinc-200 rounded-full mx-auto mb-4 flex items-center justify-center animate-[spin_30s_linear_infinite]">
+					<div class="w-12 h-[0.5px] bg-zinc-200 rotate-45"></div>
 				</div>
-				<p class="font-['Special_Elite',_serif] text-zinc-400 uppercase tracking-[0.3em] text-xs">Portfolio Coming Soon</p>
+				<p class="font-['Special_Elite',_serif] text-zinc-400 uppercase tracking-[0.5em] text-[10px]">
+					Portfolio Coming Soon
+				</p>
 			</div>
 		</main>
 
