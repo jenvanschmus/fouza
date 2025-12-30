@@ -6,32 +6,26 @@ const links = [
 ];
 ---
 
-<header class="site-header">
-  <div class="header-container">
-    <div class="logo-wrapper">
-      <a href="/">
-        <img src="/site-assets/home-logo.png" alt="Logo" class="main-logo" />
-      </a>
-    </div>
+<header class="header-bar">
+  <div class="header-inner">
+    <a href="/" class="logo-link">
+      <img src="/site-assets/home-logo.png" alt="Home" class="logo-img" />
+    </a>
 
-    <nav class="main-nav">
-      <div class="internal-links">
-        <a href="/gallery">Gallery</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
+    <nav class="nav-container">
+      <div class="nav-group">
+        <a href="/gallery" class="nav-link">Gallery</a>
+        <a href="/about" class="nav-link">About</a>
+        <a href="/contact" class="nav-link">Contact</a>
       </div>
 
-      <div class="divider"></div>
+      <div class="line-divider"></div>
 
-      <div class="social-links">
-        {links.map((link) => (
-          <a href={link.url} target="_blank" rel="noopener noreferrer">
-            <img 
-              src={`/external-links/${link.name.toLowerCase()}.png`} 
-              class="social-icon"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
-            />
-            <span class="fallback-text">{link.name}</span>
+      <div class="social-group">
+        {links.map(l => (
+          <a href={l.url} target="_blank" class="social-item">
+            <img src={`/external-links/${l.name.toLowerCase()}.png`} class="social-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
+            <span class="social-fallback">{l.name}</span>
           </a>
         ))}
       </div>
@@ -40,26 +34,20 @@ const links = [
 </header>
 
 <style>
-  @font-face {
-    font-family: 'Univern';
-    src: url('/fonts/UNIVERN.ttf') format('truetype');
-    font-display: swap;
-  }
-
-  .site-header {
+  .header-bar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100px;
     background: white;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     z-index: 9999;
     display: flex;
     align-items: center;
   }
 
-  .header-container {
+  .header-inner {
     width: 100%;
     padding: 0 50px;
     display: flex;
@@ -67,34 +55,25 @@ const links = [
     align-items: center;
   }
 
-  .main-logo {
-    height: 80px; /* 80% of 100px */
+  .logo-img {
+    height: 80px; /* Exactly 80% of 100px */
     width: auto;
   }
 
-  .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-  }
+  .nav-container { display: flex; align-items: center; gap: 40px; }
 
-  .internal-links {
-    display: flex;
-    gap: 30px;
-    font-family: 'Univern', sans-serif;
-  }
-
-  .internal-links a {
+  /* FORCING THE FONT */
+  .nav-link {
+    font-family: 'Univern', sans-serif !important;
     text-decoration: none;
-    color: #111;
-    font-size: 1.2rem;
+    color: #000;
+    font-size: 1.1rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
   }
 
-  .divider { width: 1px; height: 30px; background: #eee; }
-
-  .social-links { display: flex; gap: 20px; }
-  .social-icon { width: 22px; height: 22px; filter: grayscale(100%); opacity: 0.4; }
-  .fallback-text { display: none; font-family: 'Univern'; font-size: 0.8rem; }
+  .line-divider { width: 1px; height: 30px; background: #eee; }
+  .social-group { display: flex; gap: 15px; }
+  .social-icon { width: 22px; height: 22px; filter: grayscale(1); opacity: 0.4; }
+  .social-fallback { display: none; font-family: 'Univern'; font-size: 0.8rem; }
 </style>
