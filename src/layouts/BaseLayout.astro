@@ -1,23 +1,21 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-
 const { title } = Astro.props;
 ---
-
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{title} | Goldsmith Portfolio</title>
-		
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Special+Elite&display=swap" rel="stylesheet">
-	</head>
-	<body class="bg-white text-zinc-900 selection:bg-zinc-100">
-		<Header />
-		<slot /> <Footer />
-	</body>
+  <head>
+    <title>{title}</title>
+    <style is:global>
+      body { margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+      main { flex: 1; } /* This pushes the footer to the bottom */
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
 </html>
