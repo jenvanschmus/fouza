@@ -3,126 +3,121 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="footer-grid">
-    <div></div>
+  <div class="footer-inner">
+    <div class="spacer"></div>
+    
+    <div class="content-area">
+      <div class="footer-col">
+        <h4 class="footer-label">Sitemap</h4>
+        <nav class="footer-nav">
+          <a href="/gallery">Gallery</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
 
-    <div class="footer-column">
-      <h4 class="label">Sitemap</h4>
-      <ul class="hand-links">
-        <li><a href="/gallery">Gallery</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-column">
-      <h4 class="label">Contact</h4>
-      <div class="hand-links">
-        <p>By Appointment</p>
-        <p>studio@yourdomain.com</p>
+      <div class="footer-col">
+        <h4 class="footer-label">Contact</h4>
+        <div class="footer-text">
+          <span>By Appointment</span>
+          <span>studio@yourdomain.com</span>
+        </div>
       </div>
     </div>
 
-    <div></div>
+    <div class="spacer"></div>
   </div>
 
   <div class="footer-bottom">
-    <div class="tech-line"></div>
-    <p class="copyright">© {currentYear} — Workshop Archive</p>
+    <div class="mechanical-dot"></div>
+    <p class="archive-text">© {currentYear} // Workshop Archive</p>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background-color: #fff;
-    border-top: 1px solid #f0f0f0;
-    padding: 5rem 0 3rem 0;
+    width: 100% !important;
+    background: #ffffff !important;
+    border-top: 1px solid #f2f2f2 !important;
+    padding: 80px 0 40px 0 !important;
+    display: block !important;
+  }
+
+  .footer-inner {
+    display: flex !important;
     width: 100%;
   }
 
-  .footer-grid {
+  .spacer {
+    flex: 1; /* Takes up 25% */
+  }
+
+  .content-area {
+    flex: 2; /* Takes up exactly 50% */
     display: grid;
-    /* Creates 4 equal 25% columns */
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    width: 100%;
-    margin-bottom: 4rem;
+    grid-template-columns: 1fr 1fr; /* Splits that 50% into two halves */
   }
 
-  .footer-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers content horizontally within the 25% block */
-    text-align: center;
-  }
-
-  .label {
-    font-family: 'Special Elite', serif;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: #bbb;
-    margin-bottom: 1.5rem;
-  }
-
-  .hand-links {
-    font-family: 'Architects Daughter', cursive;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    color: #444;
-    font-size: 0.95rem;
-    line-height: 1.8;
-  }
-
-  .hand-links a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .hand-links a:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-
-  .footer-bottom {
+  .footer-col {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    text-align: center;
   }
 
-  .tech-line {
-    width: 40px;
-    height: 1px;
-    background-color: #eee;
-    position: relative;
+  .footer-label {
+    font-family: 'Special Elite', serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: #d1d1d1;
+    text-transform: uppercase;
+    margin-bottom: 25px;
   }
 
-  .tech-line::before, .tech-line::after {
-    content: '';
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    background: #ddd;
+  .footer-nav, .footer-text {
+    font-family: 'Architects Daughter', cursive;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: #444;
+    font-size: 1rem;
+  }
+
+  .footer-nav a {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .footer-nav a:hover {
+    opacity: 0.5;
+  }
+
+  .footer-bottom {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .mechanical-dot {
+    width: 6px;
+    height: 6px;
+    border: 1px solid #eee;
     border-radius: 50%;
-    top: -1px;
   }
-  .tech-line::before { left: 0; }
-  .tech-line::after { right: 0; }
 
-  .copyright {
+  .archive-text {
     font-family: 'Special Elite', serif;
     font-size: 9px;
-    letter-spacing: 0.4em;
-    color: #ccc;
+    letter-spacing: 0.5em;
+    color: #e0e0e0;
     text-transform: uppercase;
   }
 
-  /* Responsive adjustment: stack on small screens */
   @media (max-width: 768px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
+    .content-area { grid-template-columns: 1fr; gap: 40px; }
+    .spacer { display: none; }
   }
 </style>
