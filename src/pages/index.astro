@@ -4,70 +4,174 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout title="Home">
   <section class="hero-box">
-    <div class="hero-content">
-      <p class="hero-tag">Handcrafted // Bespoke</p>
+    <div class="hero-overlay">
+      <div class="hero-label">Archive // Collection 2025</div>
     </div>
   </section>
 
-  <section class="about-box">
-    <div class="about-inner">
-      <h2 class="section-title">The Workshop</h2>
-      <div class="text-block">
-        <p>For the beginning of my adult life I was determined and excited to become an architect and interior designer. While going to college and pursuing this goal, I began taking silver smithing classes as a part of my art requirement. I finished college and started my designing career but discovered I was spending a lot of time making things for myself and gifts for others. After quite a few years of trying to live two lives, I determined that the small intricate fascinating world of silver and gold smithing was my stronger passion. I began training in earnest both with professional schooling and master goldsmiths. I've been doing it now for over 20 years and I still love it. There are always new challenges to tackle, wonderful people to meet, problems to solve, and itsy bitsy details to work out.
+  <section class="story-section">
+    <div class="story-container">
+      
+      <div class="story-header">
+        <span class="blueprint-id">Ref. No. 1974-JVS</span>
+        <h2 class="story-title">From Architecture to the Forge</h2>
+      </div>
 
-If you have any questions from what you see here, or if you'd like to order something special for yourself or a loved one, please feel free to contact me. I also have an Etsy Store, where you can find many things to tickle your fancy.
+      <div class="story-body">
+        <p>
+          For the beginning of my adult life I was determined and excited to become an architect and interior designer. While going to college and pursuing this goal, I began taking silver smithing classes as a part of my art requirement.
+        </p>
+        
+        <p>
+          I finished college and started my designing career but discovered I was spending a lot of time making things for myself and gifts for others. After quite a few years of trying to live two lives, I determined that the small intricate fascinating world of silver and gold smithing was my stronger passion.
+        </p>
 
-Thanks for taking the time to read my story! If you're dying for more, check out my Instagram account.</p>
-        <p>Keep on smiling,
-Jen Van Schmus</p>
+        <p>
+          I began training in earnest both with professional schooling and master goldsmiths. I've been doing it now for over 20 years and I still love it. There are always new challenges to tackle, wonderful people to meet, problems to solve, and itsy bitsy details to work out.
+        </p>
+
+        <p class="cta-text">
+          If you have any questions from what you see here, or if you'd like to order something special for yourself or a loved one, please feel free to <a href="/contact">contact me</a>. You can also visit my <a href="https://etsy.com" target="_blank">Etsy Store</a> to find things to tickle your fancy, or follow the workshop's progress on <a href="https://instagram.com" target="_blank">Instagram</a>.
+        </p>
+
+        <div class="signature-block">
+          <p>Keep on smiling,</p>
+          <p class="name">Jen Van Schmus</p>
+        </div>
+      </div>
+
+      <div class="mechanical-footer">
+        <div class="gear-dot"></div>
+        <div class="long-line"></div>
+        <div class="gear-dot"></div>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  /* Hero Reservation */
   .hero-box {
     width: 100%;
-    height: 800px; /* YOUR RESERVED SPACE */
-    background: #f0f0f0; /* Grey placeholder */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 800px;
+    background-color: #f4f4f4;
     background-image: url('/site-assets/hero-main.jpg');
     background-size: cover;
     background-position: center;
+    position: relative;
+    border-bottom: 1px solid #eee;
   }
 
-  .hero-tag {
-    font-family: 'Special Elite', monospace;
-    color: #999;
+  .hero-label {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    font-size: 10px;
     letter-spacing: 0.5em;
+    color: #999;
     text-transform: uppercase;
-    font-size: 12px;
   }
 
-  .about-box {
-    padding: 100px 0;
+  /* Story Section */
+  .story-section {
+    padding: 120px 0;
     background: #fff;
     display: flex;
     justify-content: center;
   }
 
-  .about-inner {
-    max-width: 600px;
-    text-align: center;
+  .story-container {
+    max-width: 700px;
+    width: 100%;
+    padding: 0 40px;
   }
 
-  .section-title {
-    font-family: 'Univern', sans-serif;
+  .story-header {
+    text-align: left;
+    margin-bottom: 60px;
+    border-left: 1px solid #eee;
+    padding-left: 30px;
+  }
+
+  .blueprint-id {
+    display: block;
+    font-size: 10px;
+    color: #ccc;
+    letter-spacing: 0.3em;
+    margin-bottom: 10px;
+  }
+
+  .story-title {
     font-size: 2.5rem;
-    margin-bottom: 30px;
+    text-transform: uppercase;
     letter-spacing: 0.1em;
+    line-height: 1.1;
   }
 
-  .text-block {
-    font-family: sans-serif;
+  .story-body {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: justify;
+  }
+
+  .story-body p {
+    font-size: 1.1rem;
     line-height: 1.8;
     color: #444;
+    letter-spacing: 0.02em;
+  }
+
+  .cta-text {
+    margin-top: 20px;
+    padding: 30px;
+    background: #fafafa;
+    border-radius: 2px;
+    font-size: 1rem !important;
+  }
+
+  .cta-text a {
+    color: #000;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.3s;
+  }
+
+  .cta-text a:hover {
+    color: #a18a4d;
+  }
+
+  .signature-block {
+    margin-top: 40px;
+    text-align: left;
+  }
+
+  .signature-block .name {
+    font-size: 1.5rem;
+    margin-top: 5px;
+    color: #111;
+  }
+
+  /* Mechanical Footer Decoration */
+  .mechanical-footer {
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    opacity: 0.3;
+  }
+
+  .long-line { flex: 1; height: 1px; background: #eee; }
+  .gear-dot { 
+    width: 8px; height: 8px; border: 1px solid #000; border-radius: 50%; 
+    position: relative;
+  }
+  .gear-dot::after {
+    content: ''; position: absolute; inset: 2px; background: #000; border-radius: 50%;
+  }
+
+  @media (max-width: 768px) {
+    .hero-box { height: 500px; }
+    .story-title { font-size: 1.8rem; }
   }
 </style>
