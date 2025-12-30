@@ -1,48 +1,80 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+
 const { title } = Astro.props;
 ---
+
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} | Goldsmith Portfolio</title>
-    <style is:global>
-      /* 1. DEFINE FONT GLOBALLY */
-      @font-face {
-        font-family: 'Univern';
-        src: url('/fonts/UNIVERN.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-      }
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{title} | FOUZA</title>
 
-      /* 2. FORCE FONT ON EVERYTHING */
-      * {
-        font-family: 'Univern', sans-serif !important;
-      }
+		<style is:global>
+			/* 1. REGISTER THE FONT */
+			@font-face {
+				font-family: 'Univern';
+				/* NOTE: If your file is UNIVERN.TTF (all caps), change the '.ttf' below to '.TTF' */
+				src: url('/fonts/UNIVERN.ttf') format('truetype');
+				font-weight: normal;
+				font-style: normal;
+				font-display: swap;
+			}
 
-      body, html {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        background-color: #fff;
-        display: flex;
-        flex-direction: column;
-      }
+			/* 2. UNIVERSAL RESET & FONT APPLICATION */
+			*, *::before, *::after {
+				box-sizing: border-box;
+				/* This forces the font onto EVERYTHING. 
+				   'serif' is the backup; if you see Times New Roman, the path above is broken. */
+				font-family: 'Univern', serif !important; 
+				margin: 0;
+				padding: 0;
+			}
 
-      main {
-        flex: 1;
-        padding-top: 100px; /* Offset for the 100px header */
-      }
-    </style>
-  </head>
-  <body>
-    <Header />
-    <main>
-      <slot />
-    </main>
-    <Footer />
-  </body>
+			body {
+				background-color: #ffffff;
+				color: #1a1a1a;
+				line-height: 1.5;
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+			}
+
+			/* 3. MAIN CONTENT SPACING */
+			main {
+				flex: 1;
+				/* This matches your 100px header so content doesn't hide underneath it */
+				padding-top: 100px; 
+			}
+
+			/* Smooth scrolling for Millennial/Gen X UX appeal */
+			html {
+				scroll-behavior: smooth;
+			}
+
+			a {
+				color: inherit;
+				text-decoration: none;
+				transition: opacity 0.3s ease;
+			}
+
+			a:hover {
+				opacity: 0.7;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		
+		<main>
+			<slot />
+		</main>
+
+		<Footer />
+	</body>
 </html>
