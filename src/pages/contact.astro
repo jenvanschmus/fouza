@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Contact">
+  <div class="contact-page-wrapper">
+    <div class="technical-grid"></div>
+
+    <section class="contact-container">
+      <div class="header-block">
+        <p class="blueprint-label">Phase // 03 — Communication</p>
+        <h1 class="page-title">Connect</h1>
+      </div>
+
+      <div class="contact-content">
+        <div class="inquiry-box">
+          <p class="instruction-text">
+            Please contact me via email if you have any questions about the pieces on this website or if you would like something custom created.
+          </p>
+          
+          <div class="email-display">
+            <a href="mailto:curiosity@fouza.com" class="main-email">curiosity@fouza.com</a>
+            <div class="underline-detail"></div>
+          </div>
+        </div>
+
+        <div class="details-footer">
+          <div class="detail-item">
+            <span class="tag">Location</span>
+            <span class="val">Workshop Archive // Global</span>
+          </div>
+          <div class="detail-item">
+            <span class="tag">Status</span>
+            <span class="val">Accepting Commissions</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-page-wrapper {
+    position: relative;
+    min-height: calc(100vh - 100px); /* Fill screen minus header */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  /* Steampunk technical grid effect */
+  .technical-grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: 
+      linear-gradient(#000 1px, transparent 1px),
+      linear-gradient(90deg, #000 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .contact-container {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    width: 100%;
+    padding: 60px 40px;
+    text-align: center;
+  }
+
+  .blueprint-label {
+    /* Falling back to Special Elite for technical 'meta' text */
+    font-family: 'Special Elite', monospace !important;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    color: #bbb;
+    margin-bottom: 20px;
+  }
+
+  .page-title {
+    font-size: 4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 60px;
+  }
+
+  .inquiry-box {
+    margin-bottom: 80px;
+  }
+
+  .instruction-text {
+    max-width: 450px;
+    margin: 0 auto 40px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .email-display {
+    display: inline-block;
+    position: relative;
+  }
+
+  .main-email {
+    font-size: 2.5rem;
+    color: #111;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .underline-detail {
+    height: 1px;
+    width: 100%;
+    background: #eee;
+    margin-top: 10px;
+    position: relative;
+  }
+
+  /* Small dots at the end of the line for mechanical feel */
+  .underline-detail::before, .underline-detail::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ddd;
+    top: -1.5px;
+    border-radius: 50%;
+  }
+  .underline-detail::before { left: 0; }
+  .underline-detail::after { right: 0; }
+
+  .details-footer {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 40px;
+  }
+
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .tag {
+    font-family: 'Special Elite', monospace !important;
+    font-size: 9px;
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  .val {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #888;
+  }
+
+  /* Responsive styling */
+  @media (max-width: 768px) {
+    .page-title { font-size: 2.5rem; }
+    .main-email { font-size: 1.5rem; }
+    .details-footer { flex-direction: column; gap: 30px; }
+  }
+</style>
