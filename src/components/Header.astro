@@ -1,19 +1,49 @@
+---
+const links = [
+  { name: 'Instagram', url: 'https://instagram.com/yourprofile' },
+  { name: 'YouTube', url: 'https://youtube.com/@yourchannel' },
+  { name: 'Etsy', url: 'https://etsy.com/shop/yourshop' }
+];
+---
+
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo-wrapper">
+      <a href="/">
+        <img src="/site-assets/home-logo.png" alt="Logo" class="main-logo" />
+      </a>
+    </div>
+
+    <nav class="main-nav">
+      <div class="internal-links">
+        <a href="/gallery">Gallery</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="social-links">
+        {links.map((link) => (
+          <a href={link.url} target="_blank" rel="noopener noreferrer">
+            <img 
+              src={`/external-links/${link.name.toLowerCase()}.png`} 
+              class="social-icon"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+            />
+            <span class="fallback-text">{link.name}</span>
+          </a>
+        ))}
+      </div>
+    </nav>
+  </div>
+</header>
+
 <style>
-  /* 1. Register your custom font from /public/fonts/ */
   @font-face {
     font-family: 'Univern';
     src: url('/fonts/UNIVERN.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
     font-display: swap;
-  }
-
-  /* 2. Standard Google Fonts for fallbacks */
-  @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
-
-  :root {
-    --header-height: 100px; 
-    --logo-scale: 0.8;
   }
 
   .site-header {
@@ -21,70 +51,50 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: var(--header-height);
-    background-color: white;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    height: 100px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    z-index: 9999;
     display: flex;
     align-items: center;
-    z-index: 1000;
   }
 
   .header-container {
     width: 100%;
-    padding: 0 4rem;
+    padding: 0 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
   .main-logo {
-    height: calc(var(--header-height) * var(--logo-scale));
+    height: 80px; /* 80% of 100px */
     width: auto;
-    display: block;
   }
 
   .main-nav {
     display: flex;
     align-items: center;
-    gap: 3rem;
+    gap: 40px;
   }
 
   .internal-links {
     display: flex;
-    gap: 2.5rem;
-    /* 3. Apply your custom font here */
+    gap: 30px;
     font-family: 'Univern', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
   }
 
   .internal-links a {
     text-decoration: none;
-    color: #1a1a1a;
-    font-size: 1.1rem; /* Adjusted for custom font readability */
-    transition: all 0.3s ease;
+    color: #111;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
-  .internal-links a:hover {
-    color: #a18a4d; 
-    opacity: 0.7;
-  }
+  .divider { width: 1px; height: 30px; background: #eee; }
 
-  .divider {
-    width: 1px;
-    height: 30px;
-    background-color: #f0f0f0;
-  }
-
-  .external-links {
-    display: flex;
-    gap: 1.5rem;
-  }
-
-  .external-icon {
-    width: 22px;
-    height: 22px;
-    filter: grayscale(100%);
-    opacity: 0.4;
-  }
+  .social-links { display: flex; gap: 20px; }
+  .social-icon { width: 22px; height: 22px; filter: grayscale(100%); opacity: 0.4; }
+  .fallback-text { display: none; font-family: 'Univern'; font-size: 0.8rem; }
 </style>
