@@ -1,13 +1,30 @@
-<main class="pt-16 min-h-[80vh] bg-[#f4f4f4] relative overflow-hidden">
-  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" 
-       style="background-image: radial-gradient(#000 0.5px, transparent 0.5px); background-size: 20px 20px;">
-  </div>
-  
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10">
-    <svg width="400" height="400" viewBox="0 0 100 100" class="animate-[spin_60s_linear_infinite]">
-      <path d="M50 20 L55 5 L45 5 Z" fill="currentColor"/>
-      <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="0.5"/>
-      <circle cx="50" cy="50" r="5" fill="none" stroke="currentColor" stroke-width="0.5"/>
-    </svg>
-  </div>
-</main>
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Goldsmith Portfolio</title>
+	</head>
+	<body class="bg-white selection:bg-zinc-200">
+		<Header />
+
+		<main class="pt-16 min-h-screen bg-[#ececec] relative overflow-hidden flex items-center justify-center">
+			<div class="absolute inset-0 pointer-events-none opacity-[0.05]" 
+				 style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 50px 50px;">
+			</div>
+
+			<div class="relative z-10 text-center">
+				<div class="w-24 h-24 border border-zinc-300 rounded-full mx-auto mb-6 flex items-center justify-center animate-[spin_20s_linear_infinite]">
+					<div class="w-20 h-20 border-t border-zinc-400 rounded-full"></div>
+				</div>
+				<p class="font-['Special_Elite',_serif] text-zinc-400 uppercase tracking-[0.3em] text-xs">Portfolio Coming Soon</p>
+			</div>
+		</main>
+
+		<Footer />
+	</body>
+</html>
