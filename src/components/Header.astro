@@ -1,50 +1,43 @@
 ---
-import fs from 'node:fs';
-import path from 'node:path';
-
-let externalLinks = [];
-
-try {
-  // Using process.cwd() is more reliable for build environments
-  const linksDir = path.join(process.cwd(), 'public', 'external-links');
-  
-  if (fs.existsSync(linksDir)) {
-    const folders = fs.readdirSync(linksDir);
-    externalLinks = folders.map(folder => {
-      const linkPath = path.join(linksDir, folder, 'link.txt');
-      const url = fs.existsSync(linkPath) ? fs.readFileSync(linkPath, 'utf-8').trim() : '#';
-      return {
-        name: folder,
-        url: url,
-        icon: `/external-links/${folder}/icon.png`
-      };
-    });
-  }
-} catch (e) {
-  console.log("External links directory not found yet, skipping...");
-}
+// Define your links here. 
+// The 'icon' path will look for /public/external-links/youtube.png, etc.
+const links = [
+  { name: 'Instagram', url: 'https://instagram.com/' },
+  { name: 'YouTube', url: 'https://youtube.com/' },
+  { name: 'Etsy', url: 'https://etsy.com/shop/' }
+];
 ---
 
-<header class="fixed top-0 left-0 w-full h-16 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] flex items-center justify-between px-6 z-50">
+<header class="fixed top-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-6 z-50">
   <div class="flex-shrink-0">
     <a href="/">
-      <img src="/site-assets/home-logo.png" alt="Logo" class="h-8 w-auto grayscale contrast-125" />
+      <img src="/site-assets/home-logo.png" alt="Logo" class="h-6 w-auto grayscale" />
     </a>
   </div>
 
   <nav class="flex items-center gap-8">
-    <div class="flex gap-6 text-[17px] text-zinc-800 font-['Architects_Daughter',_cursive]">
-      <a href="/gallery" class="hover:rotate-[-2deg] transition-transform">Gallery</a>
-      <a href="/about" class="hover:rotate-[2deg] transition-transform">About</a>
-      <a href="/contact" class="hover:rotate-[-1deg] transition-transform">Contact</a>
+    <div class="flex gap-6 text-[16px] text-zinc-800 font-['Architects_Daughter',_cursive]">
+      <a href="/gallery" class="hover:text-zinc-500 transition-colors">Gallery</a>
+      <a href="/about" class="hover:text-zinc-500 transition-colors">About</a>
+      <a href="/contact" class="hover:text-zinc-500 transition-colors">Contact</a>
     </div>
 
     <div class="h-4 w-[1px] bg-zinc-200"></div>
 
-    <div class="flex gap-3">
-      {externalLinks.map(link => (
-        <a href={link.url} target="_blank" class="grayscale opacity-50 hover:opacity-100 transition-all">
-          <img src={link.icon} alt={link.name} class="w-4 h-4" />
+    <div class="flex gap-5 items-center">
+      {links.map((link) => (
+        <a href={link.url} target="_blank" rel="noopener noreferrer" class="group">
+          <div class="relative flex items-center justify-center">
+            <img 
+              src={`/external-links/${link.name.toLowerCase()}.png`} 
+              alt=""
+              class="w-5 h-5 grayscale opacity-50 group-hover:opacity-100 transition-all block"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+            />
+            <span class="hidden font-['Architects_Daughter'] text-sm text-zinc-400 group-hover:text-zinc-800 transition-colors whitespace-nowrap">
+              {link.name}
+            </span>
+          </div>
         </a>
       ))}
     </div>
