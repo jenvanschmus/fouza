@@ -1,29 +1,13 @@
----
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/global.css'; // Assuming you have Tailwind or CSS here
----
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Goldsmith Portfolio</title>
-	</head>
-	<body class="bg-white antialiased">
-		<Header />
-
-		<main class="pt-20"> <section class="w-full h-[80vh] bg-gray-100 flex items-center justify-center">
-				<div class="text-center">
-					<h1 class="font-serif text-4xl text-gray-800 mb-2 italic">Crafted Elegance</h1>
-					<p class="text-gray-400 tracking-widest uppercase text-xs">Portfolio Coming Soon</p>
-				</div>
-			</section>
-
-			<section class="h-screen bg-white"></section>
-		</main>
-
-		<Footer />
-	</body>
-</html>
+<main class="pt-16 min-h-[80vh] bg-[#f4f4f4] relative overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" 
+       style="background-image: radial-gradient(#000 0.5px, transparent 0.5px); background-size: 20px 20px;">
+  </div>
+  
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10">
+    <svg width="400" height="400" viewBox="0 0 100 100" class="animate-[spin_60s_linear_infinite]">
+      <path d="M50 20 L55 5 L45 5 Z" fill="currentColor"/>
+      <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="0.5"/>
+      <circle cx="50" cy="50" r="5" fill="none" stroke="currentColor" stroke-width="0.5"/>
+    </svg>
+  </div>
+</main>
