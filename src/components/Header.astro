@@ -15,7 +15,6 @@ const links = [
     <nav class="nav-container">
       <div class="nav-group">
         <a href="/gallery" class="nav-link">Gallery</a>
-        <a href="/about" class="nav-link">About</a>
         <a href="/contact" class="nav-link">Contact</a>
       </div>
 
@@ -41,7 +40,7 @@ const links = [
     width: 100%;
     height: 100px;
     background: white;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
     z-index: 9999;
     display: flex;
     align-items: center;
@@ -49,31 +48,34 @@ const links = [
 
   .header-inner {
     width: 100%;
-    padding: 0 50px;
+    padding: 0 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
   .logo-img {
-    height: 80px; /* Exactly 80% of 100px */
+    height: 80px; /* 80% of 100px */
     width: auto;
   }
 
-  .nav-container { display: flex; align-items: center; gap: 40px; }
+  .nav-container { display: flex; align-items: center; gap: 60px; }
 
-  /* FORCING THE FONT */
+  .nav-group {
+    display: flex;
+    gap: 80px; /* INCREASED SPACING */
+  }
+
   .nav-link {
-    font-family: 'Univern', sans-serif !important;
     text-decoration: none;
     color: #000;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.2em;
   }
 
   .line-divider { width: 1px; height: 30px; background: #eee; }
-  .social-group { display: flex; gap: 15px; }
+  .social-group { display: flex; gap: 20px; }
   .social-icon { width: 22px; height: 22px; filter: grayscale(1); opacity: 0.4; }
-  .social-fallback { display: none; font-family: 'Univern'; font-size: 0.8rem; }
+  .social-fallback { display: none; font-size: 0.8rem; }
 </style>
