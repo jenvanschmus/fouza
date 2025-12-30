@@ -1,26 +1,65 @@
-<footer class="bg-white border-t border-gray-100 py-12 px-8">
-  <div class="max-w-md mx-auto flex justify-between items-start gap-12">
+---
+/* Footer.astro - Minimalist Steampunk / Monochrome */
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="w-full bg-white border-t border-zinc-200 py-16 px-6">
+  <div class="max-w-xl mx-auto flex flex-col items-center">
     
-    <div class="text-center w-1/2">
-      <h4 class="font-['Courier_Prime'] text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-4">Sitemap</h4>
-      <ul class="space-y-1 font-['Architects_Daughter'] text-sm text-gray-800">
-        <li><a href="/gallery">Gallery</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-    </div>
-
-    <div class="text-center w-1/2">
-      <h4 class="font-['Courier_Prime'] text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-4">Contact</h4>
-      <div class="font-['Architects_Daughter'] text-sm text-gray-800 space-y-1">
-        <p>Studio Appointment</p>
-        <p>hello@yourdomain.com</p>
+    <div class="grid grid-cols-2 gap-12 md:gap-24 mb-16">
+      
+      <div class="text-center">
+        <h4 class="font-['Special_Elite',_serif] text-[10px] uppercase tracking-[0.3em] text-zinc-400 mb-6">
+          Sitemap
+        </h4>
+        <ul class="font-['Architects_Daughter',_cursive] text-zinc-800 space-y-3 text-base">
+          <li>
+            <a href="/gallery" class="hover:line-through decoration-zinc-400 decoration-1">Gallery</a>
+          </li>
+          <li>
+            <a href="/about" class="hover:line-through decoration-zinc-400 decoration-1">About</a>
+          </li>
+          <li>
+            <a href="/contact" class="hover:line-through decoration-zinc-400 decoration-1">Contact</a>
+          </li>
+        </ul>
       </div>
+
+      <div class="text-center">
+        <h4 class="font-['Special_Elite',_serif] text-[10px] uppercase tracking-[0.3em] text-zinc-400 mb-6">
+          Contact
+        </h4>
+        <div class="font-['Architects_Daughter',_cursive] text-zinc-800 space-y-3 text-base">
+          <p>By Appointment</p>
+          <a href="mailto:hello@yourdomain.com" class="hover:line-through decoration-zinc-400 decoration-1">
+            Email Studio
+          </a>
+        </div>
+      </div>
+
     </div>
 
-  </div>
-  
-  <div class="mt-12 text-center font-['Courier_Prime'] text-[9px] uppercase tracking-widest text-gray-300">
-    &copy; {new Date().getFullYear()} — Handcrafted in the Workshop
+    <div class="flex flex-col items-center gap-4">
+      <div class="w-12 h-[1px] bg-zinc-100 flex justify-between">
+        <div class="w-1 h-1 bg-zinc-300 rounded-full -mt-[1.5px]"></div>
+        <div class="w-1 h-1 bg-zinc-300 rounded-full -mt-[1.5px]"></div>
+      </div>
+      
+      <p class="font-['Special_Elite',_serif] text-[9px] uppercase tracking-[0.4em] text-zinc-300">
+        &copy; {currentYear} — Studio Archive
+      </p>
+    </div>
   </div>
 </footer>
+
+<style>
+  /* Ensuring fonts are available locally within the component */
+  @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Special+Elite&display=swap');
+
+  /* Simple reset to ensure links don't have default blue styling */
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+</style>
