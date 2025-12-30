@@ -1,31 +1,132 @@
 ---
-// src/layouts/BaseLayout.astro
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-const { title } = Astro.props;
+const links = [
+  { name: 'Instagram', url: 'https://instagram.com/yourprofile' },
+  { name: 'YouTube', url: 'https://youtube.com/@yourchannel' },
+  { name: 'Etsy', url: 'https://etsy.com/shop/yourshop' }
+];
 ---
-<html>
-  <head>
-    <title>{title}</title>
-    <style is:global>
-      /* Global Reset to ensure styling works */
-      body, html {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        background-color: #fff;
-        color: #111;
-        font-family: sans-serif;
-      }
-      main {
-        min-height: 100vh;
-        padding-top: 80px; /* Should match header height */
-      }
-    </style>
-  </head>
-  <body>
-    <Header />
-    <slot />
-    <Footer />
-  </body>
-</html>
+
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo-wrapper">
+      <a href="/">
+        <img src="/site-assets/home-logo.png" alt="Logo" class="main-logo" />
+      </a>
+    </div>
+
+    <nav class="main-nav">
+      <div class="internal-links">
+        <a href="/gallery">Gallery</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="external-links">
+        {links.map((link) => (
+          <a href={link.url} target="_blank" rel="noopener noreferrer" class="external-link-item">
+            <img 
+              src={`/external-links/${link.name.toLowerCase()}.png`} 
+              alt="" 
+              class="external-icon"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+            />
+            <span class="fallback-text">{link.name}</span>
+          </a>
+        ))}
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* 1. Register Custom Font */
+  @font-face {
+    font-family: 'Univern';
+    src: url('/fonts/UNIVERN.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* 2. Layout Structure */
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; /* Locked at your request */
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    z-index: 9999; /* Ensure it stays on top */
+  }
+
+  .header-container {
+    width: 100%;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* 3. Logo Scaling (80% of 100px = 80px) */
+  .main-logo {
+    height: 80px;
+    width: auto;
+    display: block;
+  }
+
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* 4. Typography - Using UNIVERN */
+  .internal-links {
+    display: flex;
+    gap: 30px;
+    font-family: 'Univern', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .internal-links a {
+    text-decoration: none;
+    color: #111;
+    font-size: 1.2rem;
+    transition: opacity 0.2s ease;
+  }
+
+  .internal-links a:hover {
+    opacity: 0.6;
+  }
+
+  .divider {
+    width: 1px;
+    height: 30px;
+    background-color: #eee;
+  }
+
+  .external-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .external-icon {
+    width: 22px;
+    height: 22px;
+    filter: grayscale(100%);
+    opacity: 0.4;
+  }
+
+  .fallback-text {
+    display: none;
+    font-family: 'Univern', sans-serif;
+    font-size: 0.8rem;
+    color: #888;
+  }
+</style>
