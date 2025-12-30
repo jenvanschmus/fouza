@@ -1,21 +1,31 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/layouts/BaseLayout.astro
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+const { title } = Astro.props;
 ---
-
-<BaseLayout title="Home">
-	<main class="pt-16 min-h-[70vh] bg-[#fdfdfd] relative overflow-hidden flex items-center justify-center">
-		<div class="absolute inset-0 pointer-events-none opacity-[0.03]" 
-			 style="background-image: radial-gradient(#000 0.5px, transparent 0.5px); background-size: 30px 30px;">
-		</div>
-
-		<div class="relative z-10 text-center">
-			<div class="w-16 h-16 border-[0.5px] border-zinc-200 rounded-full mx-auto mb-4 flex items-center justify-center animate-[spin_30s_linear_infinite]">
-				<div class="w-12 h-[0.5px] bg-zinc-200 rotate-45"></div>
-			</div>
-			
-			<p class="font-['Special_Elite'] text-zinc-400 uppercase tracking-[0.5em] text-[10px]">
-				Portfolio Coming Soon
-			</p>
-		</div>
-	</main>
-</BaseLayout>
+<html>
+  <head>
+    <title>{title}</title>
+    <style is:global>
+      /* Global Reset to ensure styling works */
+      body, html {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #fff;
+        color: #111;
+        font-family: sans-serif;
+      }
+      main {
+        min-height: 100vh;
+        padding-top: 80px; /* Should match header height */
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+  </body>
+</html>
