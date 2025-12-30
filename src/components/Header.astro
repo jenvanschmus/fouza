@@ -1,25 +1,56 @@
-<header class="fixed top-0 left-0 w-full h-16 bg-white shadow-md flex items-center justify-between px-8 z-50">
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+let externalLinks = [];
+
+try {
+  // Using process.cwd() is more reliable for build environments
+  const linksDir = path.join(process.cwd(), 'public', 'external-links');
+  
+  if (fs.existsSync(linksDir)) {
+    const folders = fs.readdirSync(linksDir);
+    externalLinks = folders.map(folder => {
+      const linkPath = path.join(linksDir, folder, 'link.txt');
+      const url = fs.existsSync(linkPath) ? fs.readFileSync(linkPath, 'utf-8').trim() : '#';
+      return {
+        name: folder,
+        url: url,
+        icon: `/external-links/${folder}/icon.png`
+      };
+    });
+  }
+} catch (e) {
+  console.log("External links directory not found yet, skipping...");
+}
+---
+
+<header class="fixed top-0 left-0 w-full h-16 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] flex items-center justify-between px-6 z-50">
   <div class="flex-shrink-0">
     <a href="/">
-      <img src="/site-assets/home-logo.png" alt="Home Logo" class="h-8 w-auto grayscale" />
+      <img src="/site-assets/home-logo.png" alt="Logo" class="h-8 w-auto grayscale contrast-125" />
     </a>
   </div>
 
-  <nav class="flex items-center gap-10">
-    <div class="flex gap-8 text-lg text-black font-['Architects_Daughter']">
-      <a href="/gallery" class="hover:underline decoration-1 underline-offset-4">Gallery</a>
-      <a href="/about" class="hover:underline decoration-1 underline-offset-4">About</a>
-      <a href="/contact" class="hover:underline decoration-1 underline-offset-4">Contact</a>
+  <nav class="flex items-center gap-8">
+    <div class="flex gap-6 text-[17px] text-zinc-800 font-['Architects_Daughter',_cursive]">
+      <a href="/gallery" class="hover:rotate-[-2deg] transition-transform">Gallery</a>
+      <a href="/about" class="hover:rotate-[2deg] transition-transform">About</a>
+      <a href="/contact" class="hover:rotate-[-1deg] transition-transform">Contact</a>
     </div>
 
-    <div class="h-4 w-[1px] bg-gray-300"></div>
+    <div class="h-4 w-[1px] bg-zinc-200"></div>
 
-    <div class="flex gap-4 grayscale opacity-60">
+    <div class="flex gap-3">
       {externalLinks.map(link => (
-        <a href={link.url} target="_blank" rel="noopener noreferrer">
-          <img src={link.icon} alt={link.name} class="w-4 h-4 hover:opacity-100 transition-opacity" />
+        <a href={link.url} target="_blank" class="grayscale opacity-50 hover:opacity-100 transition-all">
+          <img src={link.icon} alt={link.name} class="w-4 h-4" />
         </a>
       ))}
     </div>
   </nav>
 </header>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Special+Elite&display=swap');
+</style>
