@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: your-username/your-repo-name
+  repo: jenvanschmus/fouza
   branch: main
   base_url: https://fouza-cms-auth.jenvanschmus.workers.dev
   auth_endpoint: auth
