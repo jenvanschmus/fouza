@@ -2,124 +2,115 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Fetch the items Jen uploaded via Decap CMS
-const items = await getCollection('gallery');
+// 1. Fetch all entries from 'src/content/gallery/'
+const rawItems = await getCollection('gallery');
 
-// Sort by date (newest first) if date exists
-const sortedItems = items.sort((a, b) => {
-  const dateA = a.data.date ? new Date(a.data.date).getTime() : 0;
-  const dateB = b.data.date ? new Date(b.data.date).getTime() : 0;
-  return dateB - dateA;
-});
+// 2. "Render" the markdown content for each item so we can display the body text
+const galleryItems = await Promise.all(
+  rawItems.map(async (item) => {
+    const { Content } = await item.render();
+    return { ...item, Content };
+  })
+);
+
+// 3. Sort by title or date if preferred
+const sortedItems = galleryItems.sort((a, b) => a.data.title.localeCompare(b.data.title));
 ---
 
 <BaseLayout title="Gallery">
-  <div class="gallery-page">
+  <div class="gallery-container">
     
-    <header class="gallery-intro">
-      <div class="technical-label">Archive // Catalog Index</div>
+    <header class="gallery-header">
+      <div class="blueprint-meta">Archive // Item Catalog</div>
       <h1 class="gallery-title">Collection</h1>
       
-      <div class="search-section">
-        <div class="search-box">
-          <input 
-            type="text" 
-            id="gallery-search" 
-            placeholder="SEARCH BY KEYWORD (E.G. GOLD, RING, BLUE)..." 
-            autocomplete="off"
-          />
-          <div class="search-line"></div>
-        </div>
-        <p id="search-results-count" class="results-meta">Showing {items.length} pieces</p>
+      <div class="search-wrapper">
+        <input 
+          type="text" 
+          id="gallery-search" 
+          placeholder="SEARCH BY KEYWORD (E.G. GOLD, RING, BLUE)..." 
+          autocomplete="off"
+        />
+        <div class="search-accent-line"></div>
       </div>
     </header>
 
-    <section class="gallery-grid" id="main-grid">
+    <div class="gallery-grid" id="main-grid">
       {sortedItems.map((item) => (
         <div 
-          class="gallery-item" 
-          data-title={item.data.title.toLowerCase()} 
-          data-desc={item.data.description?.toLowerCase() || ""}
+          class="gallery-card" 
+          data-search-body={`${item.data.title} ${item.body}`.toLowerCase()}
         >
-          <div class="image-container">
+          <div class="image-frame">
             <img src={item.data.image} alt={item.data.title} loading="lazy" />
           </div>
           
-          <div class="item-details">
-            <div class="item-header">
-              <span class="ref-number">REF // {item.slug.toUpperCase()}</span>
+          <div class="card-content">
+            <div class="card-meta">
+              <span class="ref-id">REF // {item.slug.toUpperCase()}</span>
               <h3 class="item-name">{item.data.title}</h3>
             </div>
             
-            <p class="item-description">
-              {item.data.description}
-            </p>
+            <div class="item-description">
+              <item.Content />
+            </div>
 
-            <div class="item-footer">
-               <a href="/contact" class="inquiry-link">Inquire</a>
+            <div class="card-footer">
+              <a href="/contact" class="inquiry-btn">Inquire</a>
             </div>
           </div>
         </div>
       ))}
-    </section>
+    </div>
 
-    <div id="no-results" class="hidden-state">
-      <p>No matching pieces found in the archive.</p>
+    <div id="empty-state" class="empty-message" style="display: none;">
+      <p>No matching artifacts found in the archive.</p>
     </div>
 
   </div>
 </BaseLayout>
 
 <script>
-  // Search Logic
+  // Simple, high-performance search logic
   const searchInput = document.getElementById('gallery-search') as HTMLInputElement;
-  const items = document.querySelectorAll('.gallery-item');
-  const countDisplay = document.getElementById('search-results-count');
-  const noResults = document.getElementById('no-results');
+  const cards = document.querySelectorAll('.gallery-card');
+  const emptyMessage = document.getElementById('empty-state');
 
   searchInput?.addEventListener('input', (e) => {
     const term = (e.target as HTMLInputElement).value.toLowerCase();
-    let visibleCount = 0;
+    let matchCount = 0;
 
-    items.forEach((item) => {
-      const title = item.getAttribute('data-title') || "";
-      const desc = item.getAttribute('data-desc') || "";
+    cards.forEach(card => {
+      const searchContent = card.getAttribute('data-search-body') || "";
       
-      if (title.includes(term) || desc.includes(term)) {
-        (item as HTMLElement).style.display = 'block';
-        visibleCount++;
+      if (searchContent.includes(term)) {
+        (card as HTMLElement).style.display = 'block';
+        matchCount++;
       } else {
-        (item as HTMLElement).style.display = 'none';
+        (card as HTMLElement).style.display = 'none';
       }
     });
 
-    // Update results count
-    if (countDisplay) countDisplay.innerText = `Showing ${visibleCount} pieces`;
-    
-    // Show empty state if nothing found
-    if (noResults) {
-      if (visibleCount === 0) {
-        noResults.style.display = 'block';
-      } else {
-        noResults.style.display = 'none';
-      }
+    // Toggle the "No results" message
+    if (emptyMessage) {
+      emptyMessage.style.display = matchCount === 0 ? 'block' : 'none';
     }
   });
 </script>
 
 <style>
-  .gallery-page {
+  .gallery-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 60px 40px 120px 40px;
+    padding: 100px 40px;
   }
 
-  .gallery-intro {
+  .gallery-header {
     text-align: center;
     margin-bottom: 100px;
   }
 
-  .technical-label {
+  .blueprint-meta {
     font-family: 'Special Elite', monospace !important;
     font-size: 10px;
     letter-spacing: 0.5em;
@@ -132,18 +123,14 @@ const sortedItems = items.sort((a, b) => {
     font-size: 4rem;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
   }
 
-  /* Search Bar Styling */
-  .search-section {
-    max-width: 600px;
+  /* Search Bar */
+  .search-wrapper {
+    max-width: 500px;
     margin: 0 auto;
-  }
-
-  .search-box {
     position: relative;
-    margin-bottom: 15px;
   }
 
   #gallery-search {
@@ -153,115 +140,90 @@ const sortedItems = items.sort((a, b) => {
     background: transparent;
     text-align: center;
     font-size: 1rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     outline: none;
     text-transform: uppercase;
   }
 
-  .search-line {
+  .search-accent-line {
     height: 1px;
     background: #eee;
     width: 100%;
     position: relative;
   }
 
-  .search-line::after {
-    content: '';
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #ddd;
-    border-radius: 50%;
-    top: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .results-meta {
-    font-size: 10px;
-    color: #aaa;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-  }
-
-  /* Grid Layout */
+  /* Catalog Grid */
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 80px 40px;
+    gap: 100px 40px;
   }
 
-  .gallery-item {
+  .gallery-card {
     display: flex;
     flex-direction: column;
-    background: white;
-    transition: transform 0.3s ease;
   }
 
-  .image-container {
-    width: 100%;
-    aspect-ratio: 1/1;
+  .image-frame {
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     background: #fcfcfc;
-    border: 1px solid #f2f2f2;
-    margin-bottom: 30px;
+    border: 1px solid #f5f5f5;
+    margin-bottom: 35px;
   }
 
-  .image-container img {
+  .image-frame img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
 
-  .gallery-item:hover img {
+  .gallery-card:hover img {
     transform: scale(1.05);
   }
 
-  .item-details {
-    text-align: left;
-  }
-
-  .ref-number {
+  /* Typography */
+  .ref-id {
     font-family: 'Special Elite', monospace !important;
     font-size: 10px;
     color: #ddd;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.3em;
   }
 
   .item-name {
     font-size: 1.8rem;
     text-transform: uppercase;
-    margin: 10px 0 20px 0;
-    letter-spacing: 0.05em;
+    margin: 10px 0 25px 0;
+    letter-spacing: 0.1em;
   }
 
   .item-description {
-    font-family: sans-serif !important; /* Cleaner reading for descriptions */
+    font-family: sans-serif !important; /* Clean sans-serif for readability */
     font-size: 1rem;
+    line-height: 1.8;
     color: #555;
-    line-height: 1.7;
     margin-bottom: 30px;
   }
 
-  .inquiry-link {
+  .inquiry-btn {
     display: inline-block;
-    padding: 10px 25px;
+    padding: 12px 30px;
     border: 1px solid #eee;
     font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: #888;
+    letter-spacing: 0.3em;
+    color: #999;
+    transition: all 0.3s ease;
   }
 
-  .inquiry-link:hover {
+  .inquiry-btn:hover {
     background: #000;
     color: #fff;
     border-color: #000;
   }
 
-  .hidden-state {
-    display: none;
+  .empty-message {
     padding: 100px;
     text-align: center;
     color: #ccc;
