@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: jenvanschmus/fouza
+  repo: your-username/your-repo-name
   branch: main
   base_url: https://fouza-cms-auth.jenvanschmus.workers.dev
   auth_endpoint: auth
@@ -13,11 +13,11 @@ collections:
     label: "Gallery Items"
     folder: "src/content/gallery"
     create: true
-    format: "frontmatter" # Explicitly tell it to use the --- bars
+    format: "frontmatter"
     slug: "{{title}}"
-  fields:
-    - { label: "Title", name: "title", widget: "string" }
-    - { label: "Category", name: "category", widget: "select", options: ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "Brooches", "Artwork"] }
-    - { label: "Product Image", name: "image", widget: "image" }
-    - { label: "Date Added", name: "date", widget: "datetime" }
-    - { label: "Description & Details", name: "body", widget: "markdown" }
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "Brooches", "Artwork"] }
+      - { label: "Product Image", name: "image", widget: "image" }
+      - { label: "Date Added", name: "date", widget: "datetime" }
+      - { label: "Description & Details", name: "body", widget: "markdown" }
