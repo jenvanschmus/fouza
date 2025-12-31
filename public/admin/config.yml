@@ -29,6 +29,20 @@ collections:
           - "Pendants"
           - "Brooches"
           - "Artwork"
+          - label: "Categories"
+        name: "category"
+        widget: "select"
+        multiple: true
+        required: false # This allows the field to be left blank
+        options: 
+          - "Bracelets"
+          - "Necklaces"
+          - "Rings"
+          - "Earrings"
+          - "Pendants"
+          - "Brooches"
+          - "Artwork"
+          - "Other"
       - { label: "Product Image", name: "image", widget: "image" }
       - { label: "Date Added", name: "date", widget: "datetime" }
       - { label: "Description & Details", name: "body", widget: "markdown" }
