@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: your-username/your-repo-name # Ensure this matches your GitHub repo exactly
+  repo: jenvanschmus/fouza # Ensure this matches your GitHub repo exactly
   branch: main
   base_url: https://fouza-cms-auth.jenvanschmus.workers.dev
   auth_endpoint: auth
