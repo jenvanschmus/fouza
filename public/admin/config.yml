@@ -1,8 +1,9 @@
 backend:
   name: github
-  repo: your-github-username/your-repo-name # UPDATE THIS
+  repo: jenvanschmus/fouza
   branch: main
-  base_url: https://your-oauth-proxy.com # We will set this up in Step 4
+  base_url: fouza-cms-auth.jenvanschmus.workers.dev
+  auth_endpoint: auth
 
 media_folder: "public/site-assets/gallery"
 public_folder: "/site-assets/gallery"
