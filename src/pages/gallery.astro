@@ -1,176 +1,232 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Bypassing the bouncer: This manually grabs every .md file in the folder
+// 1. Fetch all jewelry items directly from the folder
 const allItems = await Astro.glob('../content/gallery/*.md');
 
-// This matches the structure of your manually uploaded file
-const galleryItems = allItems.map((item) => ({
-  data: item.frontmatter,
-  Content: item.Content,
-  body: item.rawContent(),
-  slug: item.file.split('/').pop().replace('.md', '')
-}));
+// 2. Sort them by date (newest first)
+const sortedItems = allItems.sort((a, b) => {
+  return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
+});
 ---
 
 <BaseLayout title="Gallery Archive">
-  <div class="gallery-wrapper">
+  <div class="gallery-page">
     
-    {galleryItems.length === 0 && (
-      <div class="debug-panel">
-        <h2 class="debug-title">🕵️ System Diagnostic</h2>
-        <div class="debug-grid">
-          <div class="debug-box">
-            <span class="debug-label">Content Collection:</span>
-            <span class="debug-value">{galleryItems.length} items</span>
-          </div>
-          <div class="debug-box">
-            <span class="debug-label">Filesystem Scan:</span>
-            <span class="debug-value">{filePaths.length} files found</span>
-          </div>
-          <div class="debug-box">
-            <span class="debug-label">Folder Path:</span>
-            <span class="debug-value">/src/content/gallery/</span>
-          </div>
-        </div>
-
-        {filePaths.length > 0 && (
-          <div class="debug-files">
-            <p><strong>Files detected on server:</strong></p>
-            <ul>{filePaths.map(path => <li>{path}</li>)}</ul>
-            <p class="instruction">💡 If files are found here but "Content Collection" is 0, your <code>src/content/config.ts</code> schema is rejecting the data format.</p>
-          </div>
-        )}
-
-        {fetchError && <p class="error-msg"><strong>Error:</strong> {fetchError}</p>}
-      </div>
-    )}
-
     <header class="gallery-header">
-      <div class="meta-label">ARCHIVE // INDEX</div>
-      <h1 class="univern-text">Collection</h1>
+      <div class="meta-tag">ARCHIVE // COLLECTIONS INDEX</div>
+      <h1 class="univern-font">The Catalog</h1>
       
       <div class="search-section">
         <input 
           type="text" 
           id="gallery-search" 
-          placeholder="SEARCH BY MATERIAL, STYLE, OR KEYWORD..." 
+          placeholder="SEARCH BY MATERIAL, COLOR, OR PIECE TYPE..." 
           autocomplete="off"
         />
-        <div class="search-underline"></div>
+        <div class="search-line"></div>
       </div>
     </header>
 
     <section class="gallery-grid" id="main-grid">
-      {galleryItems.map((item) => (
-        <div class="gallery-card" data-search={`${item.data.title} ${item.body}`.toLowerCase()}>
+      {sortedItems.map((item) => (
+        <div 
+          class="gallery-card" 
+          data-search={`${item.frontmatter.title} ${item.rawContent()}`.toLowerCase()}
+        >
           <div class="image-frame">
-            <img src={item.data.image} alt={item.data.title} loading="lazy" />
+            <img src={item.frontmatter.image} alt={item.frontmatter.title} loading="lazy" />
           </div>
           
-          <div class="item-info">
-            <span class="ref-id">REF // {item.slug.toUpperCase()}</span>
-            <h3 class="item-title">{item.data.title}</h3>
-            <div class="item-desc">
-               <item.Content />
+          <div class="item-content">
+            <div class="item-header">
+              <span class="ref-code">REF // {item.file.split('/').pop().replace('.md', '').toUpperCase()}</span>
+              <h3 class="item-title">{item.frontmatter.title}</h3>
             </div>
-            <a href="/contact" class="inquiry-link">Inquire</a>
+            
+            <div class="item-description">
+              <item.Content />
+            </div>
+
+            <div class="card-footer">
+              <a href="/contact" class="inquiry-btn">Inquire</a>
+            </div>
           </div>
         </div>
       ))}
     </section>
 
     <div id="no-results" class="empty-state">
-      <p>No matching artifacts found in the archive.</p>
+      <p>No matching pieces found in the archive.</p>
     </div>
 
   </div>
 </BaseLayout>
 
 <script>
-  // Fast Client-Side Search
+  // Ultra-fast client-side search
   const searchInput = document.getElementById('gallery-search') as HTMLInputElement;
   const cards = document.querySelectorAll('.gallery-card');
   const noResults = document.getElementById('no-results');
 
   searchInput?.addEventListener('input', (e) => {
     const term = (e.target as HTMLInputElement).value.toLowerCase();
-    let count = 0;
+    let matchCount = 0;
 
     cards.forEach(card => {
-      const text = card.getAttribute('data-search') || "";
-      if (text.includes(term)) {
+      const searchData = card.getAttribute('data-search') || "";
+      if (searchData.includes(term)) {
         (card as HTMLElement).style.display = 'block';
-        count++;
+        matchCount++;
       } else {
         (card as HTMLElement).style.display = 'none';
       }
     });
 
-    if (noResults) noResults.style.display = count === 0 ? 'block' : 'none';
+    if (noResults) {
+      noResults.style.display = matchCount === 0 ? 'block' : 'none';
+    }
   });
 </script>
 
 <style>
-  .gallery-wrapper { max-width: 1400px; margin: 0 auto; padding: 100px 40px; }
-  
-  .gallery-header { text-align: center; margin-bottom: 80px; }
-  .meta-label { font-family: 'Special Elite', monospace !important; font-size: 10px; color: #ccc; letter-spacing: 0.5em; margin-bottom: 20px; }
-  .univern-text { font-size: 4rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 50px; }
+  .gallery-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px 40px;
+  }
 
-  /* Search bar styling */
-  .search-section { max-width: 500px; margin: 0 auto; position: relative; }
+  .gallery-header {
+    text-align: center;
+    margin-bottom: 100px;
+  }
+
+  .meta-tag {
+    font-family: 'Special Elite', monospace !important;
+    font-size: 10px;
+    color: #ccc;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .univern-font {
+    font-size: 4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 40px;
+  }
+
+  /* Search Bar */
+  .search-section {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
   #gallery-search {
-    width: 100%; border: none; background: transparent; padding: 20px;
-    text-align: center; font-size: 1rem; letter-spacing: 0.1em; outline: none;
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 20px;
+    text-align: center;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    outline: none;
     text-transform: uppercase;
   }
-  .search-underline { height: 1px; background: #eee; width: 100%; }
+
+  .search-line {
+    height: 1px;
+    background: #eee;
+    width: 100%;
+  }
 
   /* Catalog Grid */
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 80px 40px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 100px 40px;
   }
 
-  .gallery-card { display: flex; flex-direction: column; transition: opacity 0.3s; }
+  .gallery-card {
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.8s ease forwards;
+  }
+
   .image-frame {
-    aspect-ratio: 1/1; background: #fcfcfc; border: 1px solid #f2f2f2;
-    overflow: hidden; margin-bottom: 30px;
+    aspect-ratio: 1 / 1;
+    background: #fcfcfc;
+    border: 1px solid #f2f2f2;
+    overflow: hidden;
+    margin-bottom: 30px;
   }
-  .image-frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
-  .gallery-card:hover img { transform: scale(1.05); }
 
-  .ref-id { font-family: 'Special Elite', monospace !important; font-size: 10px; color: #bbb; }
-  .item-title { font-size: 1.8rem; text-transform: uppercase; margin: 10px 0; }
-  .item-desc { font-family: sans-serif !important; font-size: 0.95rem; color: #666; line-height: 1.7; margin-bottom: 25px; }
-
-  .inquiry-link {
-    display: inline-block; padding: 10px 20px; border: 1px solid #eee;
-    color: #999; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.2em;
-    width: fit-content;
+  .image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
-  .inquiry-link:hover { background: #000; color: #fff; border-color: #000; }
 
-  /* Debug Panel */
-  .debug-panel {
-    background: #fff5f5; border: 1px dashed #feb2b2; padding: 30px; margin-bottom: 60px;
-    font-family: monospace; border-radius: 8px;
+  .gallery-card:hover img {
+    transform: scale(1.05);
   }
-  .debug-title { color: #c53030; margin-bottom: 15px; font-size: 1rem; }
-  .debug-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .debug-box { display: flex; flex-direction: column; }
-  .debug-label { font-size: 0.7rem; color: #999; text-transform: uppercase; }
-  .debug-value { font-weight: bold; font-size: 0.9rem; }
-  .debug-files { margin-top: 20px; padding-top: 20px; border-top: 1px solid #fed7d7; font-size: 0.8rem; }
-  .error-msg { color: #c53030; margin-top: 15px; font-weight: bold; }
-  .instruction { margin-top: 10px; color: #2c5282; }
 
-  .empty-state { display: none; text-align: center; padding: 100px; color: #ccc; text-transform: uppercase; }
+  .ref-code {
+    font-family: 'Special Elite', monospace !important;
+    font-size: 10px;
+    color: #ddd;
+    letter-spacing: 0.2em;
+  }
+
+  .item-title {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    margin: 10px 0 20px 0;
+    letter-spacing: 0.05em;
+  }
+
+  .item-description {
+    font-family: sans-serif !important;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 30px;
+  }
+
+  .inquiry-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    border: 1px solid #eee;
+    color: #aaa;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    transition: all 0.3s ease;
+  }
+
+  .inquiry-btn:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 100px;
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
   @media (max-width: 768px) {
     .gallery-grid { grid-template-columns: 1fr; }
-    .univern-text { font-size: 2.5rem; }
+    .univern-font { font-size: 2.5rem; }
   }
 </style>
