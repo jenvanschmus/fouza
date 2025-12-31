@@ -1,0 +1,20 @@
+backend:
+  name: github
+  repo: your-github-username/your-repo-name # UPDATE THIS
+  branch: main
+  base_url: https://your-oauth-proxy.com # We will set this up in Step 4
+
+media_folder: "public/site-assets/gallery"
+public_folder: "/site-assets/gallery"
+
+collections:
+  - name: "gallery"
+    label: "Gallery Items"
+    folder: "src/content/gallery"
+    create: true
+    slug: "{{title}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Product Image", name: "image", widget: "image" }
+      - { label: "Date Added", name: "date", widget: "datetime" }
+      - { label: "Description & Details", name: "body", widget: "markdown" }
