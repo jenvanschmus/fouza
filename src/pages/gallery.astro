@@ -1,27 +1,37 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// 1. Fetch all jewelry items directly from the folder
 const allItems = await Astro.glob('../content/gallery/*.md');
 
-// 2. Sort them by date (newest first)
+// Sort by date (newest first)
 const sortedItems = allItems.sort((a, b) => {
   return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
 });
+
+const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "Brooches", "Artwork"];
 ---
 
 <BaseLayout title="Gallery Archive">
   <div class="gallery-page">
     
     <header class="gallery-header">
-      <div class="meta-tag">ARCHIVE // COLLECTIONS INDEX</div>
-      <h1 class="univern-font">The Catalog</h1>
+      <div class="meta-tag">ARCHIVE // INDEX</div>
+      <h1 class="univern-font">Collection</h1>
       
+      <div class="filter-controls">
+        {categories.map(cat => (
+          <label class="filter-chip">
+            <input type="checkbox" name="category" value={cat.toLowerCase()} class="cat-checkbox" />
+            <span class="chip-label">{cat}</span>
+          </label>
+        ))}
+      </div>
+
       <div class="search-section">
         <input 
           type="text" 
           id="gallery-search" 
-          placeholder="SEARCH BY MATERIAL, COLOR, OR PIECE TYPE..." 
+          placeholder="Search by keyword..." 
           autocomplete="off"
         />
         <div class="search-line"></div>
@@ -32,6 +42,7 @@ const sortedItems = allItems.sort((a, b) => {
       {sortedItems.map((item) => (
         <div 
           class="gallery-card" 
+          data-category={item.frontmatter.category?.toLowerCase() || ""}
           data-search={`${item.frontmatter.title} ${item.rawContent()}`.toLowerCase()}
         >
           <div class="image-frame">
@@ -47,16 +58,12 @@ const sortedItems = allItems.sort((a, b) => {
             <div class="item-description">
               <item.Content />
             </div>
-
-            <div class="card-footer">
-              <a href="/contact" class="inquiry-btn">Inquire</a>
-            </div>
           </div>
         </div>
       ))}
     </section>
 
-    <div id="no-results" class="empty-state">
+    <div id="no-results" class="empty-state" style="display: none;">
       <p>No matching pieces found in the archive.</p>
     </div>
 
@@ -64,18 +71,28 @@ const sortedItems = allItems.sort((a, b) => {
 </BaseLayout>
 
 <script>
-  // Ultra-fast client-side search
   const searchInput = document.getElementById('gallery-search') as HTMLInputElement;
+  const checkboxes = document.querySelectorAll('.cat-checkbox');
   const cards = document.querySelectorAll('.gallery-card');
   const noResults = document.getElementById('no-results');
 
-  searchInput?.addEventListener('input', (e) => {
-    const term = (e.target as HTMLInputElement).value.toLowerCase();
+  // Handle filtering
+  function applyFilters() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const activeCategories = Array.from(checkboxes)
+      .filter(i => (i as HTMLInputElement).checked)
+      .map(i => (i as HTMLInputElement).value);
+
     let matchCount = 0;
 
     cards.forEach(card => {
-      const searchData = card.getAttribute('data-search') || "";
-      if (searchData.includes(term)) {
+      const cardContent = card.getAttribute('data-search') || "";
+      const cardCategory = card.getAttribute('data-category') || "";
+      
+      const matchesSearch = cardContent.includes(searchTerm);
+      const matchesCategory = activeCategories.length === 0 || activeCategories.includes(cardCategory);
+
+      if (matchesSearch && matchesCategory) {
         (card as HTMLElement).style.display = 'block';
         matchCount++;
       } else {
@@ -86,147 +103,79 @@ const sortedItems = allItems.sort((a, b) => {
     if (noResults) {
       noResults.style.display = matchCount === 0 ? 'block' : 'none';
     }
+  }
+
+  // Listeners
+  searchInput?.addEventListener('input', applyFilters);
+  checkboxes.forEach(box => box.addEventListener('change', applyFilters));
+
+  // Fix: Clear placeholder on focus
+  searchInput?.addEventListener('focus', () => {
+    searchInput.setAttribute('data-placeholder', searchInput.placeholder);
+    searchInput.placeholder = '';
+  });
+  searchInput?.addEventListener('blur', () => {
+    searchInput.placeholder = searchInput.getAttribute('data-placeholder') || 'Search by keyword...';
   });
 </script>
 
 <style>
-  .gallery-page {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 100px 40px;
-  }
+  .gallery-page { max-width: 1400px; margin: 0 auto; padding: 100px 40px; }
+  .gallery-header { text-align: center; margin-bottom: 80px; }
+  .univern-font { font-size: 3.5rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 40px; }
+  .meta-tag { font-family: 'Special Elite', monospace !important; font-size: 10px; color: #ccc; letter-spacing: 0.5em; margin-bottom: 20px; }
 
-  .gallery-header {
-    text-align: center;
-    margin-bottom: 100px;
-  }
-
-  .meta-tag {
-    font-family: 'Special Elite', monospace !important;
-    font-size: 10px;
-    color: #ccc;
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-
-  .univern-font {
-    font-size: 4rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
+  /* Checkbox Chips */
+  .filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
     margin-bottom: 40px;
   }
-
-  /* Search Bar */
-  .search-section {
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  #gallery-search {
-    width: 100%;
-    border: none;
-    background: transparent;
-    padding: 20px;
-    text-align: center;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-    outline: none;
-    text-transform: uppercase;
-  }
-
-  .search-line {
-    height: 1px;
-    background: #eee;
-    width: 100%;
-  }
-
-  /* Catalog Grid */
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 100px 40px;
-  }
-
-  .gallery-card {
-    display: flex;
-    flex-direction: column;
-    animation: fadeIn 0.8s ease forwards;
-  }
-
-  .image-frame {
-    aspect-ratio: 1 / 1;
-    background: #fcfcfc;
-    border: 1px solid #f2f2f2;
-    overflow: hidden;
-    margin-bottom: 30px;
-  }
-
-  .image-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-  }
-
-  .gallery-card:hover img {
-    transform: scale(1.05);
-  }
-
-  .ref-code {
-    font-family: 'Special Elite', monospace !important;
-    font-size: 10px;
-    color: #ddd;
-    letter-spacing: 0.2em;
-  }
-
-  .item-title {
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    margin: 10px 0 20px 0;
-    letter-spacing: 0.05em;
-  }
-
-  .item-description {
-    font-family: sans-serif !important;
-    font-size: 1rem;
-    line-height: 1.8;
-    color: #555;
-    margin-bottom: 30px;
-  }
-
-  .inquiry-btn {
+  .filter-chip { cursor: pointer; }
+  .cat-checkbox { display: none; }
+  .chip-label {
     display: inline-block;
-    padding: 10px 25px;
+    padding: 8px 18px;
     border: 1px solid #eee;
-    color: #aaa;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.2em;
-    transition: all 0.3s ease;
+    letter-spacing: 0.1em;
+    color: #999;
+    transition: all 0.2s ease;
   }
-
-  .inquiry-btn:hover {
+  .cat-checkbox:checked + .chip-label {
     background: #000;
     color: #fff;
     border-color: #000;
   }
 
-  .empty-state {
-    text-align: center;
-    padding: 100px;
-    color: #ccc;
+  /* Search */
+  .search-section { max-width: 400px; margin: 0 auto; position: relative; }
+  #gallery-search {
+    width: 100%; border: none; background: transparent; padding: 15px;
+    text-align: center; font-size: 0.9rem; letter-spacing: 0.1em; outline: none;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
   }
+  .search-line { height: 1px; background: #eee; width: 100%; }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+  /* Grid */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 80px 40px;
   }
+  .image-frame { aspect-ratio: 1/1; background: #fcfcfc; border: 1px solid #f2f2f2; overflow: hidden; margin-bottom: 25px; }
+  .image-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .ref-code { font-family: 'Special Elite', monospace !important; font-size: 10px; color: #ddd; }
+  .item-title { font-size: 1.6rem; text-transform: uppercase; margin: 8px 0 15px 0; }
+  .item-description { font-family: sans-serif !important; font-size: 0.95rem; color: #666; line-height: 1.7; }
+
+  .empty-state { text-align: center; padding: 100px 0; color: #ccc; text-transform: uppercase; letter-spacing: 0.2em; }
 
   @media (max-width: 768px) {
     .gallery-grid { grid-template-columns: 1fr; }
-    .univern-font { font-size: 2.5rem; }
+    .univern-font { font-size: 2.2rem; }
   }
 </style>
