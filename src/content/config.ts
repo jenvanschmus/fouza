@@ -1,12 +1,12 @@
 import { defineCollection, z } from 'astro:content';
 
 const gallery = defineCollection({
-  type: 'content', // This allows for a description in Markdown
-  schema: ({ image }) => z.object({
+  type: 'content',
+  schema: z.object({
     title: z.string(),
-    // 'image' will be the path to the photo Jen uploads
-    image: z.string(), 
+    image: z.string(),
     date: z.date().optional(),
+    description: z.string().optional(), // We'll use this for the search
   }),
 });
 
