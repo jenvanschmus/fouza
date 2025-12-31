@@ -1,29 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
 
-// 1. ATTEMPT TO FETCH THE COLLECTION
-let rawItems = [];
-let fetchError = null;
+// Bypassing the bouncer: This manually grabs every .md file in the folder
+const allItems = await Astro.glob('../content/gallery/*.md');
 
-try {
-  rawItems = await getCollection('gallery');
-} catch (e) {
-  fetchError = e instanceof Error ? e.message : 'Unknown Collection Error';
-}
-
-// 2. FILESYSTEM SCAN (The "Detective")
-// This checks if the files actually exist on the Cloudflare server, bypassing Astro's "Content Layer"
-const manualFiles = import.meta.glob('../content/gallery/**/*.{md,mdx}');
-const filePaths = Object.keys(manualFiles);
-
-// 3. RENDER CONTENT
-const galleryItems = await Promise.all(
-  rawItems.map(async (item) => {
-    const { Content } = await item.render();
-    return { ...item, Content };
-  })
-);
+// This matches the structure of your manually uploaded file
+const galleryItems = allItems.map((item) => ({
+  data: item.frontmatter,
+  Content: item.Content,
+  body: item.rawContent(),
+  slug: item.file.split('/').pop().replace('.md', '')
+}));
 ---
 
 <BaseLayout title="Gallery Archive">
