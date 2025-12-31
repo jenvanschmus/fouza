@@ -2,110 +2,275 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-// Fetch all items from the 'gallery' collection
-const galleryItems = await getCollection('gallery');
+// Fetch the items Jen uploaded via Decap CMS
+const items = await getCollection('gallery');
+
+// Sort by date (newest first) if date exists
+const sortedItems = items.sort((a, b) => {
+  const dateA = a.data.date ? new Date(a.data.date).getTime() : 0;
+  const dateB = b.data.date ? new Date(b.data.date).getTime() : 0;
+  return dateB - dateA;
+});
 ---
 
 <BaseLayout title="Gallery">
-  <section class="gallery-container">
-    <div class="gallery-header">
-      <h1 class="univern-title">Collection Archive</h1>
+  <div class="gallery-page">
+    
+    <header class="gallery-intro">
+      <div class="technical-label">Archive // Catalog Index</div>
+      <h1 class="gallery-title">Collection</h1>
       
-      <div class="search-wrapper">
-        <input 
-          type="text" 
-          id="gallery-search" 
-          placeholder="SEARCH BY KEYWORD (E.G. GOLD, SAPPHIRE, RING)..."
-          class="search-input"
-        />
-        <div class="search-line"></div>
+      <div class="search-section">
+        <div class="search-box">
+          <input 
+            type="text" 
+            id="gallery-search" 
+            placeholder="SEARCH BY KEYWORD (E.G. GOLD, RING, BLUE)..." 
+            autocomplete="off"
+          />
+          <div class="search-line"></div>
+        </div>
+        <p id="search-results-count" class="results-meta">Showing {items.length} pieces</p>
       </div>
-    </div>
+    </header>
 
-    <div class="gallery-grid" id="main-grid">
-      {galleryItems.map((item) => (
-        <div class="gallery-card" data-description={item.data.description.toLowerCase()} data-title={item.data.title.toLowerCase()}>
-          <div class="image-frame">
+    <section class="gallery-grid" id="main-grid">
+      {sortedItems.map((item) => (
+        <div 
+          class="gallery-item" 
+          data-title={item.data.title.toLowerCase()} 
+          data-desc={item.data.description?.toLowerCase() || ""}
+        >
+          <div class="image-container">
             <img src={item.data.image} alt={item.data.title} loading="lazy" />
           </div>
-          <div class="card-info">
-            <span class="item-id">REF // {item.slug.toUpperCase()}</span>
-            <h3 class="item-title">{item.data.title}</h3>
-            <p class="item-description">{item.data.description}</p>
+          
+          <div class="item-details">
+            <div class="item-header">
+              <span class="ref-number">REF // {item.slug.toUpperCase()}</span>
+              <h3 class="item-name">{item.data.title}</h3>
+            </div>
+            
+            <p class="item-description">
+              {item.data.description}
+            </p>
+
+            <div class="item-footer">
+               <a href="/contact" class="inquiry-link">Inquire</a>
+            </div>
           </div>
         </div>
       ))}
+    </section>
+
+    <div id="no-results" class="hidden-state">
+      <p>No matching pieces found in the archive.</p>
     </div>
-  </section>
+
+  </div>
 </BaseLayout>
 
 <script>
-  // Simple client-side search logic
-  const searchInput = document.getElementById('gallery-search');
-  const cards = document.querySelectorAll('.gallery-card');
+  // Search Logic
+  const searchInput = document.getElementById('gallery-search') as HTMLInputElement;
+  const items = document.querySelectorAll('.gallery-item');
+  const countDisplay = document.getElementById('search-results-count');
+  const noResults = document.getElementById('no-results');
 
-  searchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    
-    cards.forEach(card => {
-      const content = card.getAttribute('data-description') + " " + card.getAttribute('data-title');
-      if (content.includes(searchTerm)) {
-        card.style.display = 'block';
+  searchInput?.addEventListener('input', (e) => {
+    const term = (e.target as HTMLInputElement).value.toLowerCase();
+    let visibleCount = 0;
+
+    items.forEach((item) => {
+      const title = item.getAttribute('data-title') || "";
+      const desc = item.getAttribute('data-desc') || "";
+      
+      if (title.includes(term) || desc.includes(term)) {
+        (item as HTMLElement).style.display = 'block';
+        visibleCount++;
       } else {
-        card.style.display = 'none';
+        (item as HTMLElement).style.display = 'none';
       }
     });
+
+    // Update results count
+    if (countDisplay) countDisplay.innerText = `Showing ${visibleCount} pieces`;
+    
+    // Show empty state if nothing found
+    if (noResults) {
+      if (visibleCount === 0) {
+        noResults.style.display = 'block';
+      } else {
+        noResults.style.display = 'none';
+      }
+    }
   });
 </script>
 
 <style>
-  .gallery-container { padding: 80px 40px; max-width: 1400px; margin: 0 auto; }
-  .gallery-header { text-align: center; margin-bottom: 80px; }
-  
-  .univern-title { font-size: 3rem; margin-bottom: 40px; letter-spacing: 0.2em; }
+  .gallery-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px 120px 40px;
+  }
 
-  /* Minimalist Search Bar */
-  .search-wrapper { max-width: 600px; margin: 0 auto; position: relative; }
-  .search-input {
+  .gallery-intro {
+    text-align: center;
+    margin-bottom: 100px;
+  }
+
+  .technical-label {
+    font-family: 'Special Elite', monospace !important;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: #ccc;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .gallery-title {
+    font-size: 4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 40px;
+  }
+
+  /* Search Bar Styling */
+  .search-section {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .search-box {
+    position: relative;
+    margin-bottom: 15px;
+  }
+
+  #gallery-search {
     width: 100%;
     border: none;
-    padding: 15px;
-    font-size: 0.9rem;
-    letter-spacing: 0.2em;
-    outline: none;
-    text-align: center;
+    padding: 20px;
     background: transparent;
+    text-align: center;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    outline: none;
+    text-transform: uppercase;
   }
-  .search-line { height: 1px; background: #eee; width: 100%; }
 
-  /* Catalog Grid */
+  .search-line {
+    height: 1px;
+    background: #eee;
+    width: 100%;
+    position: relative;
+  }
+
+  .search-line::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ddd;
+    border-radius: 50%;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .results-meta {
+    font-size: 10px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  /* Grid Layout */
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 60px 40px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 80px 40px;
   }
 
-  .gallery-card { transition: opacity 0.3s ease; }
-  
-  .image-frame {
+  .gallery-item {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    transition: transform 0.3s ease;
+  }
+
+  .image-container {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    background: #f9f9f9;
+    aspect-ratio: 1/1;
     overflow: hidden;
-    border: 1px solid #f0f0f0;
-    margin-bottom: 25px;
+    background: #fcfcfc;
+    border: 1px solid #f2f2f2;
+    margin-bottom: 30px;
   }
 
-  .image-frame img {
+  .image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
 
-  .gallery-card:hover img { transform: scale(1.05); }
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
 
-  .item-id { font-family: 'Special Elite', monospace; font-size: 10px; color: #ccc; }
-  .item-title { font-size: 1.4rem; margin: 10px 0; letter-spacing: 0.1em; }
-  .item-description { font-family: sans-serif !important; font-size: 0.9rem; color: #666; line-height: 1.6; }
+  .item-details {
+    text-align: left;
+  }
+
+  .ref-number {
+    font-family: 'Special Elite', monospace !important;
+    font-size: 10px;
+    color: #ddd;
+    letter-spacing: 0.2em;
+  }
+
+  .item-name {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    margin: 10px 0 20px 0;
+    letter-spacing: 0.05em;
+  }
+
+  .item-description {
+    font-family: sans-serif !important; /* Cleaner reading for descriptions */
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+
+  .inquiry-link {
+    display: inline-block;
+    padding: 10px 25px;
+    border: 1px solid #eee;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #888;
+  }
+
+  .inquiry-link:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
+
+  .hidden-state {
+    display: none;
+    padding: 100px;
+    text-align: center;
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+    .gallery-title { font-size: 2.5rem; }
+  }
 </style>
