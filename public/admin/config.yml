@@ -2,7 +2,7 @@ backend:
   name: github
   repo: jenvanschmus/fouza
   branch: main
-  base_url: fouza-cms-auth.jenvanschmus.workers.dev
+  base_url: https://fouza-cms-auth.jenvanschmus.workers.dev
   auth_endpoint: auth
 
 media_folder: "public/site-assets/gallery"
