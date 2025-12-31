@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+// Vite-Style File Loading
 const itemFiles = import.meta.glob('../content/gallery/*.md', { eager: true });
 const allItems = Object.values(itemFiles) as any[];
 
@@ -8,7 +9,8 @@ const sortedItems = allItems.sort((a, b) => {
   return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
 });
 
-const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "Brooches", "Artwork"];
+// Category list updated to include "Other"
+const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "Brooches", "Artwork", "Other"];
 ---
 
 <BaseLayout title="Gallery">
@@ -44,7 +46,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
       {sortedItems.map((item) => (
         <div 
           class="gallery-card" 
-          /* We join the categories with a space so JS can split them later */
           data-category={Array.isArray(item.frontmatter.category) ? item.frontmatter.category.map(c => c.toLowerCase()).join(' ') : item.frontmatter.category?.toLowerCase() || ""}
           data-search={`${item.frontmatter.title} ${item.rawContent ? item.rawContent() : ''}`.toLowerCase()}
         >
@@ -94,13 +95,9 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
 
     cards.forEach(card => {
       const cardContent = card.getAttribute('data-search') || "";
-      // Split the saved categories back into an array
       const cardCategories = (card.getAttribute('data-category') || "").split(' ');
       
       const matchesSearch = cardContent.includes(searchTerm);
-      
-      // Logic: If no filters are selected, it matches. 
-      // If filters are selected, check if at least one selected filter is in the item's categories.
       const matchesCategory = activeFilters.length === 0 || activeFilters.some(filter => cardCategories.includes(filter));
 
       if (matchesSearch && matchesCategory) {
@@ -135,7 +132,7 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
 </script>
 
 <style>
-  /* Styles remain the same as previous darkened version */
+  /* All previous high-contrast styles go here */
   .gallery-page { max-width: 1400px; margin: 0 auto; padding: 100px 40px; }
   .gallery-header { text-align: center; margin-bottom: 80px; }
   .univern-font { font-size: 3.5rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 40px; color: #111; }
@@ -156,5 +153,4 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .item-title { font-size: 1.6rem; text-transform: uppercase; margin: 8px 0 15px 0; color: #111; }
   .item-description { font-family: sans-serif !important; font-size: 0.95rem; color: #333; line-height: 1.7; }
   .empty-state { text-align: center; padding: 100px 0; color: #444; text-transform: uppercase; letter-spacing: 0.2em; }
-  @media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr; } .univern-font { font-size: 2.2rem; } }
 </style>
