@@ -9,7 +9,6 @@ const sortedItems = allItems.sort((a, b) => {
   return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
 });
 
-// Category list updated to include "Other"
 const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "Brooches", "Artwork", "Other"];
 ---
 
@@ -55,7 +54,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
           
           <div class="item-content">
             <div class="item-header">
-              <span class="ref-code">REF // {item.file.split('/').pop().replace('.md', '').toUpperCase()}</span>
               <h3 class="item-title">{item.frontmatter.title}</h3>
             </div>
             
@@ -132,25 +130,31 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
 </script>
 
 <style>
-  /* All previous high-contrast styles go here */
   .gallery-page { max-width: 1400px; margin: 0 auto; padding: 100px 40px; }
   .gallery-header { text-align: center; margin-bottom: 80px; }
   .univern-font { font-size: 3.5rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 40px; color: #111; }
+  
   .filter-wrapper { margin-bottom: 40px; }
   .filter-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 20px; }
   .filter-chip { cursor: pointer; }
   .cat-checkbox { display: none; }
   .chip-label { display: inline-block; padding: 10px 20px; border: 1px solid #ccc; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: #444; transition: all 0.2s ease; }
   .cat-checkbox:checked + .chip-label { background: #111; color: #fff; border-color: #111; }
+  
   .clear-btn { background: none; border: none; text-decoration: underline; text-underline-offset: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #666; cursor: pointer; }
+  
   .search-section { max-width: 400px; margin: 0 auto; position: relative; }
   #gallery-search { width: 100%; border: none; background: transparent; padding: 15px; text-align: center; font-size: 0.9rem; letter-spacing: 0.1em; outline: none; text-transform: uppercase; color: #111; }
   .search-line { height: 1px; background: #999; width: 100%; }
+  
   .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 80px 40px; }
   .image-frame { aspect-ratio: 1/1; background: #fcfcfc; border: 1px solid #e0e0e0; overflow: hidden; margin-bottom: 25px; }
   .image-frame img { width: 100%; height: 100%; object-fit: cover; }
-  .ref-code { font-family: 'Special Elite', monospace !important; font-size: 10px; color: #888; }
-  .item-title { font-size: 1.6rem; text-transform: uppercase; margin: 8px 0 15px 0; color: #111; }
+  
+  .item-title { font-size: 1.6rem; text-transform: uppercase; margin: 0 0 15px 0; color: #111; }
   .item-description { font-family: sans-serif !important; font-size: 0.95rem; color: #333; line-height: 1.7; }
+  
   .empty-state { text-align: center; padding: 100px 0; color: #444; text-transform: uppercase; letter-spacing: 0.2em; }
+  
+  @media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr; } .univern-font { font-size: 2.2rem; } }
 </style>
