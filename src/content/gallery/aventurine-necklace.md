@@ -1,9 +1,10 @@
 ---
-title: Aventurine Necklace
+title: Serpentine Necklace
 category:
   - Necklaces
-image: /site-assets/gallery/nwgf19-lg.gif
-date: 2026-01-03T14:44:00.000-08:00
+image: /site-assets/gallery/no14ky03-lg.gif
+date: 2026-01-03T14:45:00.000-08:00
 ---
 
-Large faceted Aventurine with small faceted Garnet, 14K gold filled.
+
+Four-strand Pearl and Sandlewood necklace with Serpentine triangle pendant. Accented with Citrine, Agate, Garnet, Serpentine, and 14KY gold.
