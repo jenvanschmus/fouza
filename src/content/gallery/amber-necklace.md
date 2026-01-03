@@ -1,10 +1,9 @@
 ---
-title: "\tAmber Necklace"
+title: Apple Coral Necklace
 category:
   - Necklaces
-image: /site-assets/gallery/amber_garnet-lg.gif
-date: 2026-01-03T14:28:00.000-08:00
+image: /site-assets/gallery/applecoral-lg.gif
+date: 2026-01-03T14:29:00.000-08:00
 ---
 
-
-Butterscotch Amber and Carnelian with 14KY gold filled wire links.
+14K yellow gold filled necklace with large Apple Coral pendant. Accompanying beads include Amber, Bone, Coral, Carnelian, Horn, and Pearls.
