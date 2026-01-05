@@ -117,7 +117,12 @@ const links = [
     align-items: center;
   }
 
-  .logo-link { display: block; line-height: 0; }
+  .logo-link { 
+    display: block; 
+    line-height: 0; 
+    /* TAP FIX */
+    -webkit-tap-highlight-color: transparent;
+  }
   .logo-img { height: 65px; width: auto; display: block; }
 
   /* DESKTOP NAV */
@@ -130,12 +135,18 @@ const links = [
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-weight: 500;
+    /* TAP FIX */
+    -webkit-tap-highlight-color: transparent;
   }
 
   .line-divider { width: 1px; height: 24px; background: #ddd; }
-  .social-group { display: flex; gap: 20px; align-items: center; }
   
-  /* ICON SCALING & FIXES */
+  .social-item {
+    /* TAP FIX */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .social-group { display: flex; gap: 20px; align-items: center; }
   .social-icon { width: 32px; height: 32px; object-fit: contain; }
   .social-icon[src*="youtube"], .social-icon[src*="etsy"] { transform: scale(1.2); }
 
@@ -157,6 +168,8 @@ const links = [
     padding: 15px;
     z-index: 10001;
     position: relative;
+    /* TAP FIX */
+    -webkit-tap-highlight-color: transparent;
   }
 
   .bar {
@@ -205,11 +218,12 @@ const links = [
     text-decoration: none; 
     text-transform: uppercase; 
     letter-spacing: 0.15em; 
+    /* TAP FIX */
+    -webkit-tap-highlight-color: transparent;
   }
 
   .mobile-divider { height: 1px; background: #eee; width: 60px; margin: 30px auto; }
 
-  /* MOBILE SOCIAL ICONS BOX */
   .mobile-socials { 
     display: flex; 
     justify-content: center; 
@@ -217,9 +231,14 @@ const links = [
     gap: 30px; 
     margin-top: 10px;
   }
+
+  .mobile-social-item {
+    /* TAP FIX */
+    -webkit-tap-highlight-color: transparent;
+  }
   
   .mobile-icon {
-    width: 40px; /* Slightly larger for thumb-tapping */
+    width: 40px; 
     height: 40px;
   }
 
