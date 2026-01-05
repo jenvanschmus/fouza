@@ -98,21 +98,32 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   const lightboxDesc = document.getElementById('lightbox-desc');
   const closeBtn = document.querySelector('.lightbox-close');
 
-  /* --- Expanded Zoom Functionality --- */
+  /* --- Toggle Zoom Functionality --- */
+  let isZoomed = false;
+  const zoomScale = 1.875; // 25% less than 2.5
+
+  zoomContainer?.addEventListener('click', () => {
+    isZoomed = !isZoomed;
+    
+    if (lightboxImg && zoomContainer) {
+      if (isZoomed) {
+        lightboxImg.style.transform = `scale(${zoomScale})`;
+        zoomContainer.style.cursor = 'zoom-out';
+      } else {
+        lightboxImg.style.transform = 'scale(1)';
+        zoomContainer.style.cursor = 'zoom-in';
+      }
+    }
+  });
+
   zoomContainer?.addEventListener('mousemove', (e: MouseEvent) => {
+    // We update the origin even if not zoomed so it's ready the moment they click
     const rect = zoomContainer.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     
     if (lightboxImg) {
       lightboxImg.style.transformOrigin = `${x}% ${y}%`;
-      lightboxImg.style.transform = 'scale(2.5)';
-    }
-  });
-
-  zoomContainer?.addEventListener('mouseleave', () => {
-    if (lightboxImg) {
-      lightboxImg.style.transform = 'scale(1)';
     }
   });
 
@@ -129,6 +140,11 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
         lightboxDesc.innerHTML = descHtml || "";
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        // Reset zoom state on open
+        isZoomed = false;
+        lightboxImg.style.transform = 'scale(1)';
+        if (zoomContainer) zoomContainer.style.cursor = 'zoom-in';
       }
     });
   });
@@ -136,6 +152,7 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   const closeLightbox = () => {
     lightbox?.classList.remove('active');
     document.body.style.overflow = '';
+    isZoomed = false;
     if (lightboxImg) lightboxImg.style.transform = 'scale(1)';
   };
 
@@ -176,6 +193,7 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
 </script>
 
 <style>
+  /* Styles remain mostly the same, ensuring smooth transition for zoom */
   .gallery-page-wrapper { position: relative; min-height: 100vh; background: #fff; overflow-x: hidden; }
   .technical-grid { position: absolute; inset: 0; opacity: 0.04; pointer-events: none; background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 40px 40px; }
   .gallery-content-container { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 60px 20px; }
@@ -193,7 +211,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .search-section { max-width: 300px; margin: 0 auto 40px; }
   .search-line { height: 1px; background: #999; width: 100%; }
 
-  /* GALLERY GRID */
   .gallery-grid { 
     display: grid; 
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
@@ -209,7 +226,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   }
   .gallery-card:hover { transform: scale(1.02); }
 
-  /* UPDATED RATIO 10:11 */
   .image-frame { 
     aspect-ratio: 10 / 11; 
     background: #fcfcfc; 
@@ -223,7 +239,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .item-description { font-family: sans-serif !important; font-size: 0.95rem; line-height: 1.6; color: #444; }
   .main-view-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
-  /* LIGHTBOX MODAL */
   .lightbox { 
     display: none; position: fixed; inset: 0; z-index: 10000; 
     background: rgba(0,0,0,0.6); 
@@ -242,23 +257,23 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
 
   .modal-body { display: flex; width: 100%; height: 100%; }
   
-  /* ZOOMABLE IMAGE CONTAINER */
   .modal-image-container { 
     flex: 1.3; 
     background: #f5f5f5; 
-    overflow: hidden; /* Important for zoom cropping */
+    overflow: hidden;
     display: flex; 
     align-items: center; 
     justify-content: center; 
     border-right: 1px solid #eee; 
     cursor: zoom-in;
+    user-select: none;
   }
   .modal-image-container img { 
     width: 100%; 
     height: 100%; 
     object-fit: contain; 
-    transition: transform 0.1s ease-out; /* Smooth zoom tracking */
-    pointer-events: none; /* Prevents img dragging from breaking mousemove */
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); 
+    pointer-events: none;
   }
   
   .modal-text-container { 
@@ -274,18 +289,14 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .modal-text-container h2 { font-size: 2.2rem; margin-bottom: 25px; }
   .modal-desc { font-size: 1.1rem; line-height: 1.8; color: #222; }
 
-  /* MOBILE RESPONSIVE */
   @media (max-width: 768px) {
     .gallery-content-container { padding: 40px 40px; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 20px; }
-    
     .modal-body { flex-direction: column; overflow-y: auto; }
     .modal-image-container { border-right: none; border-bottom: 1px solid #eee; height: 50vh; flex: none; cursor: default; }
     .modal-image-container img { height: 100%; padding: 20px; }
     .modal-text-container { padding: 40px 30px; flex: none; }
     .lightbox { padding: 2vh 2vw; }
-    
-    /* Disable zoom on mobile to avoid scroll conflicts */
     .modal-image-container { pointer-events: none; }
   }
 </style>
