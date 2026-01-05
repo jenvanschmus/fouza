@@ -3,42 +3,50 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Home">
-  <section class="hero-box">
-    <div class="hero-overlay">
-      <div class="cta-container">
-        <p class="cta-label">Workshop // Available Pieces</p>
-        <a href="https://www.etsy.com/shop/fouza" target="_blank" class="hero-cta-button">
-          Visit the Etsy Shop
-        </a>
+  <section class="hero-wrapper">
+    <div class="technical-grid"></div>
+    
+    <div class="hero-content-split">
+      <div class="hero-left">
+        <div class="etsy-promotion-box">
+          <p class="cta-label">Workshop // Available Pieces</p>
+          <h2 class="etsy-title">Visit my Etsy shop</h2>
+          <a href="https://www.etsy.com/shop/fouza" target="_blank" class="hero-cta-button">
+            Go to Shop
+          </a>
+          <div class="mechanical-detail"></div>
+        </div>
       </div>
-      <div class="hero-meta">Ref. 2025 // Collection Archive</div>
+      <div class="hero-right"></div>
     </div>
+    <div class="hero-meta">Ref. 2026 // Collection Archive</div>
   </section>
 
   <section class="story-section">
+    <div class="technical-grid"></div>
+    
     <div class="story-container">
-      
       <div class="story-header">
         <span class="blueprint-id">Ref. No. 1974-JVS</span>
-        <h2 class="story-title">From Architecture to the Forge</h2>
+        <h2 class="story-title">My Distracting Passion</h2>
       </div>
 
       <div class="story-body">
         <p>
-          For the beginning of my adult life I was determined and excited to become an architect and interior designer. While going to college and pursuing this goal, I began taking silver smithing classes as a part of my art requirement.
+          For the beginning of my adult life I was determined and excited to become an architect and interior designer. While going to college and pursuing this goal, I began taking silver smithing classes as a part of my art requirement. 
         </p>
         
         <p>
-          I finished college and started my designing career but discovered I was spending a lot of time making things for myself and gifts for others. After quite a few years of trying to live two lives, I determined that the small intricate fascinating world of silver and gold smithing was my stronger passion.
+          I finished college and started my designing career but discovered I was spending a lot of time making things for myself and gifts for others. After quite a few years of trying to live two lives, I determined that the small intricate fascinating world of silver and gold smithing was my stronger passion. 
         </p>
 
         <p>
-          I began training in earnest both with professional schooling and master goldsmiths. I've been doing it now for over 20 years and I still love it. There are always new challenges to tackle, wonderful people to meet, problems to solve, and itsy bitsy details to work out.
+          I began training in earnest both with professional schooling and master goldsmiths. I've been doing it now for over 28 years and I still love it. There are always new challenges to tackle, wonderful people to meet, problems to solve, and itsy bitsy details to work out.
         </p>
 
         <p class="cta-text">
           If you have any questions from what you see here, or if you'd like to order something special for yourself or a loved one, please feel free to <a href="/contact">contact me</a>. I also have an <a href="https://www.etsy.com/shop/fouza" target="_blank">Etsy Store</a>, where you can find many things to tickle your fancy.
-          Thanks for taking the time to read my story! If you're dying for more, check out my <a href="https://instagram.com" target="_blank">Instagram account</a>.
+          Thanks for taking the time to read my story! If you're dying for more, check out my <a href="https://www.instagram.com/jen.van.schmus/" target="_blank">Instagram account</a> or my <a href="https://www.youtube.com/@jenvanschmus" target="_blank">YouTube channel</a>.
         </p>
 
         <div class="signature-block">
@@ -57,88 +65,159 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <style>
-  .hero-box {
+  /* TECHNICAL GRID (Matching Gallery/Contact) */
+  .technical-grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    pointer-events: none;
+    background-image: 
+      linear-gradient(#000 1px, transparent 1px),
+      linear-gradient(90deg, #000 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 1;
+  }
+
+  .hero-wrapper {
+    position: relative;
     width: 100%;
     height: 800px;
-    background-color: #f9f9f9;
-    background-image: url('/site-assets/hero-main.jpg');
-    background-size: cover;
-    background-position: center;
-    position: relative;
+    background-color: #fff;
     border-bottom: 1px solid #eee;
+    overflow: hidden;
+  }
+
+  .hero-content-split {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 2; /* Sits above grid */
+  }
+
+  /* Left Side Styling */
+  .hero-left {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 40px;
   }
 
-  /* NEW HERO CTA STYLING */
-  .cta-container {
+  .etsy-promotion-box {
+    border: 1px solid #111;
+    padding: 60px 40px;
     text-align: center;
-    z-index: 10;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    background: #fff; /* Opaque to hide grid behind it */
+    box-shadow: 20px 20px 0px rgba(0,0,0,0.02);
+  }
+
+  .etsy-title {
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 30px;
+    color: #111;
   }
 
   .cta-label {
     font-family: 'Special Elite', monospace !important;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.4em;
-    color: #888;
-    margin-bottom: 20px;
+    color: #999;
+    margin-bottom: 15px;
     text-transform: uppercase;
   }
 
   .hero-cta-button {
     display: inline-block;
     padding: 15px 40px;
-    border: 1px solid #000;
+    border: 1px solid #111;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    font-size: 1.1rem;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(5px);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    font-size: 0.9rem;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
   }
 
   .hero-cta-button:hover {
-    background: #000;
-    color: #fff;
-    opacity: 1;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    background: #fff;
+    color: #111;
+  }
+
+  /* Right Side Image */
+  .hero-right {
+    flex: 1;
+    background-image: url('/site-assets/hero-main.jpg');
+    background-size: cover;
+    background-position: center;
+    border-left: 1px solid #eee;
   }
 
   .hero-meta {
     position: absolute;
     bottom: 40px;
-    right: 40px;
+    left: 40px;
     font-size: 10px;
     letter-spacing: 0.5em;
-    color: #aaa;
+    color: #bbb;
     text-transform: uppercase;
+    z-index: 5;
   }
 
-  /* RE-ALIGNED STORY STYLES */
-  .story-section { padding: 120px 0; background: #fff; display: flex; justify-content: center; }
-  .story-container { max-width: 700px; width: 100%; padding: 0 40px; }
-  .story-header { text-align: left; margin-bottom: 60px; border-left: 1px solid #eee; padding-left: 30px; }
-  .blueprint-id { display: block; font-size: 10px; color: #ccc; letter-spacing: 0.3em; margin-bottom: 10px; }
-  .story-title { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.1; }
-  .story-body { display: flex; flex-direction: column; gap: 30px; text-align: justify; }
-  .story-body p { font-size: 1.1rem; line-height: 1.8; color: #444; }
+  /* STORY SECTION */
+  .story-section { 
+    position: relative;
+    padding: 120px 0; 
+    background: #fff; 
+    display: flex; 
+    justify-content: center; 
+    overflow: hidden;
+  }
+  
+  .story-container { 
+    position: relative;
+    z-index: 2; /* Sits above grid */
+    max-width: 700px; 
+    width: 100%; 
+    padding: 0 40px; 
+  }
+  
+  .story-header { text-align: left; margin-bottom: 60px; border-left: 1px solid #111; padding-left: 30px; }
+  .blueprint-id { display: block; font-size: 10px; color: #999; letter-spacing: 0.3em; margin-bottom: 10px; }
+  .story-title { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.1; color: #111; }
+  .story-body { display: flex; flex-direction: column; gap: 30px; text-align: left; }
+  .story-body p { font-size: 1.1rem; line-height: 1.8; color: #333; }
   
   .cta-text { 
     margin-top: 20px; 
     padding: 40px; 
-    background: #fcfcfc; 
-    border-left: 2px solid #eee;
+    background: #f9f9f9; 
+    border-left: 2px solid #111;
     font-size: 1rem !important;
+    color: #444;
   }
   
-  .cta-text a { font-weight: bold; text-decoration: underline; text-underline-offset: 4px; }
+  .cta-text a { color: #111; font-weight: bold; text-decoration: underline; text-underline-offset: 4px; }
 
   .signature-block { margin-top: 40px; text-align: left; }
   .signature-block .name { font-size: 1.8rem; margin-top: 5px; color: #111; }
 
   .mechanical-footer { margin-top: 100px; display: flex; align-items: center; gap: 20px; opacity: 0.3; }
-  .long-line { flex: 1; height: 1px; background: #eee; }
-  .gear-dot { width: 8px; height: 8px; border: 1px solid #000; border-radius: 50%; position: relative; }
+  .long-line { flex: 1; height: 1px; background: #111; }
+  .gear-dot { width: 8px; height: 8px; border: 1px solid #111; border-radius: 50%; }
+
+  /* Mobile Adjustments */
+  @media (max-width: 1024px) {
+    .hero-wrapper { height: auto; }
+    .hero-content-split { flex-direction: column-reverse; }
+    .hero-right { height: 400px; border-left: none; }
+    .hero-left { padding: 80px 20px; }
+    .hero-meta { position: relative; bottom: 20px; left: 0; text-align: center; margin-top: 40px; }
+  }
 </style>
