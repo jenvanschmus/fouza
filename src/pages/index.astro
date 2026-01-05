@@ -5,7 +5,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="Home">
   <section class="hero-wrapper">
     <div class="technical-grid"></div>
-    
     <div class="hero-bg-image"></div>
 
     <div class="hero-overlay-container">
@@ -29,6 +28,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     
     <div class="story-container">
       <div class="story-header">
+        <p class="blueprint-label">Phase // 01 — Origin</p>
         <span class="blueprint-id">Ref. No. 1974-JVS</span>
         <h2 class="story-title">My Distracting Passion</h2>
       </div>
@@ -91,7 +91,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     align-items: center;
   }
 
-  /* Full-width Image Layer */
   .hero-bg-image {
     position: absolute;
     inset: 0;
@@ -101,7 +100,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     z-index: 2;
   }
 
-  /* Content Overlay Layer */
   .hero-overlay-container {
     position: relative;
     z-index: 3;
@@ -113,14 +111,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .hero-left-overlay {
     width: 100%;
-    max-width: 500px; /* Limits the box width so it doesn't hide the whole image */
+    max-width: 500px;
   }
 
   .etsy-promotion-box {
     border: 1px solid #111;
     padding: 60px 40px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.95); /* Slight transparency to see image behind */
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(5px);
     box-shadow: 20px 20px 0px rgba(0,0,0,0.1);
     position: relative;
@@ -156,20 +154,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     transition: all 0.3s ease;
   }
 
-  .hero-cta-button:hover {
-    background: #fff;
-    color: #111;
-  }
-
-  .mechanical-detail {
-    position: absolute;
-    bottom: -1px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 1px;
-    background: #111;
-  }
+  .hero-cta-button:hover { background: #fff; color: #111; }
 
   .hero-meta {
     position: absolute;
@@ -203,7 +188,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   
   .story-header { text-align: left; margin-bottom: 60px; border-left: 1px solid #111; padding-left: 30px; }
-  .blueprint-id { display: block; font-size: 10px; color: #999; letter-spacing: 0.3em; margin-bottom: 10px; }
+
+  /* Blueprint/Phase label styling */
+  .blueprint-label {
+    font-family: 'Special Elite', monospace !important;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    color: #999;
+    margin-bottom: 20px;
+  }
+
+  .blueprint-id { display: block; font-size: 10px; color: #ccc; letter-spacing: 0.3em; margin-bottom: 10px; }
   .story-title { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.1; color: #111; }
   .story-body { display: flex; flex-direction: column; gap: 30px; text-align: left; }
   .story-body p { font-size: 1.1rem; line-height: 1.8; color: #333; }
