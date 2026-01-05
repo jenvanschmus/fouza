@@ -1,79 +1,3 @@
----
-const links = [
-  { name: 'Instagram', url: 'https://www.instagram.com/jen.van.schmus/' },
-  { name: 'YouTube', url: 'https://www.youtube.com/@jenvanschmus' },
-  { name: 'Etsy', url: 'https://www.etsy.com/shop/fouza' }
-];
----
-
-<header class="header-bar">
-  <div class="header-inner">
-    <a href="/" class="logo-link">
-      <img src="/site-assets/home-logo.png" alt="Home" class="logo-img" />
-    </a>
-
-    <nav class="nav-desktop">
-      <div class="nav-group">
-        <a href="/gallery" class="nav-link">Gallery</a>
-        <a href="/contact" class="nav-link">Contact</a>
-      </div>
-
-      <div class="line-divider"></div>
-
-      <div class="social-group">
-        {links.map(l => (
-          <a href={l.url} target="_blank" class="social-item" title={l.name}>
-            <img 
-              src={`/external-links/${l.name.toLowerCase()}.png`} 
-              class="social-icon" 
-              alt={l.name}
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" 
-            />
-            <span class="social-fallback">{l.name}</span>
-          </a>
-        ))}
-      </div>
-    </nav>
-
-    <button id="menu-toggle" class="hamburger" aria-label="Open Menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-
-  <div id="mobile-menu" class="mobile-overlay">
-    <div class="mobile-inner">
-      <nav class="mobile-nav">
-        <p class="menu-label">Archive Navigation</p>
-        <a href="/gallery" class="mobile-link">Gallery</a>
-        <a href="/contact" class="mobile-link">Contact</a>
-        
-        <div class="mobile-divider"></div>
-        
-        <p class="menu-label">External Links</p>
-        <div class="mobile-socials">
-          {links.map(l => (
-            <a href={l.url} target="_blank" class="mobile-link">{l.name}</a>
-          ))}
-        </div>
-      </nav>
-    </div>
-  </div>
-</header>
-
-<script>
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const body = document.body;
-
-  menuToggle?.addEventListener('click', () => {
-    menuToggle.classList.toggle('active');
-    mobileMenu?.classList.toggle('open');
-    body.classList.toggle('no-scroll');
-  });
-</script>
-
 <style>
   .header-bar {
     position: fixed;
@@ -99,7 +23,7 @@ const links = [
   .logo-img { height: 70px; width: auto; }
 
   /* DESKTOP NAV STYLES */
-  .nav-desktop { display: flex; align-items: center; gap: 40px; } /* Slightly tighter gap to allow for larger icons */
+  .nav-desktop { display: flex; align-items: center; gap: 40px; }
   .nav-group { display: flex; gap: 40px; }
   .nav-link {
     text-decoration: none;
@@ -115,23 +39,46 @@ const links = [
   
   .social-group { 
     display: flex; 
-    gap: 25px; /* Increased gap for larger icons */
+    gap: 25px; 
     align-items: center;
+    /* Ensure scaled icons don't overlap neighbor space */
+    overflow: visible; 
   }
 
-  /* UPDATED ICON STYLES */
+  /* BASE ICON STYLES */
   .social-icon { 
-    width: 32px;       /* Fixed larger width */
-    height: 32px;      /* Fixed larger height */
-    object-fit: contain; /* Forces different file sizes to behave the same way */
-    opacity: 0.9;      /* Shows colors clearly */
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    opacity: 0.9;
+    /* Define the transition for smooth hovering */
     transition: transform 0.2s ease, opacity 0.2s ease;
+    /* Set a base scale of 1 for normal icons like Instagram */
+    transform: scale(1);
   }
   
+  /* Standard Hover Pop for normal icons */
   .social-icon:hover { 
     opacity: 1; 
-    transform: scale(1.15); /* Nice subtle pop on hover */
+    transform: scale(1.15); 
   }
+
+  /* --- THE WHITESPACE FIX --- */
+  /* Target YouTube & Etsy specifically by filename and zoom in 25% base */
+  .social-icon[src*="youtube"],
+  .social-icon[src*="etsy"] {
+    transform: scale(1.25);
+  }
+
+  /* Adjust hover state for already-zoomed icons so they still pop */
+  .social-icon[src*="youtube"]:hover,
+  .social-icon[src*="etsy"]:hover {
+    opacity: 1;
+    /* 1.25 base * 1.15 pop ≈ 1.43 total scale on hover */
+    transform: scale(1.43);
+  }
+  /* -------------------------- */
+
 
   .social-fallback { display: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #111; }
 
