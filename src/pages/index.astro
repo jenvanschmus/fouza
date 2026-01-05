@@ -19,7 +19,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
       </div>
     </div>
-    </section>
+  </section>
 
   <section class="story-section">
     <div class="technical-grid"></div>
@@ -149,6 +149,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: #fff;
     text-decoration: none;
     transition: all 0.3s ease;
+    /* FIX FOR MOBILE BLUE HIGHLIGHT */
+    -webkit-tap-highlight-color: transparent;
   }
 
   .hero-cta-button:hover { background: #fff; color: #111; }
@@ -195,7 +197,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: #444;
   }
   
-  .cta-text a { color: #111; font-weight: bold; text-decoration: underline; text-underline-offset: 4px; }
+  .cta-text a { 
+    color: #111; 
+    font-weight: bold; 
+    text-decoration: underline; 
+    text-underline-offset: 4px;
+    /* FIX FOR MOBILE BLUE HIGHLIGHT */
+    -webkit-tap-highlight-color: transparent;
+  }
 
   .signature-block { margin-top: 40px; text-align: left; }
   .signature-block .name { font-size: 1.8rem; margin-top: 5px; color: #111; }
