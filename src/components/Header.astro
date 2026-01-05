@@ -56,7 +56,17 @@ const links = [
         <p class="menu-label">External Links</p>
         <div class="mobile-socials">
           {links.map(l => (
-            <a href={l.url} target="_blank" class="mobile-link">{l.name}</a>
+            <a href={l.url} target="_blank" class="mobile-social-item" title={l.name}>
+              <img 
+                src={`/external-links/${l.name.toLowerCase()}.png`} 
+                class="social-icon mobile-icon" 
+                alt={l.name}
+                width="40" 
+                height="40"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';" 
+              />
+              <span class="social-fallback">{l.name}</span>
+            </a>
           ))}
         </div>
       </nav>
@@ -75,8 +85,7 @@ const links = [
     body.classList.toggle('no-scroll');
   });
 
-  // Close menu when a link is clicked
-  const mobileLinks = document.querySelectorAll('.mobile-link');
+  const mobileLinks = document.querySelectorAll('.mobile-link, .mobile-social-item');
   mobileLinks.forEach(link => {
     link.addEventListener('click', () => {
       menuToggle?.classList.remove('active');
@@ -125,9 +134,9 @@ const links = [
 
   .line-divider { width: 1px; height: 24px; background: #ddd; }
   .social-group { display: flex; gap: 20px; align-items: center; }
+  
+  /* ICON SCALING & FIXES */
   .social-icon { width: 32px; height: 32px; object-fit: contain; }
-
-  /* Scale YouTube/Etsy specifically */
   .social-icon[src*="youtube"], .social-icon[src*="etsy"] { transform: scale(1.2); }
 
   .social-fallback { 
@@ -146,7 +155,7 @@ const links = [
     border: none;
     cursor: pointer;
     padding: 15px;
-    z-index: 10001; /* Higher than overlay */
+    z-index: 10001;
     position: relative;
   }
 
@@ -199,17 +208,27 @@ const links = [
   }
 
   .mobile-divider { height: 1px; background: #eee; width: 60px; margin: 30px auto; }
-  .mobile-socials { display: flex; flex-direction: column; gap: 10px; }
-  .mobile-socials .mobile-link { font-size: 1.2rem; color: #777; }
+
+  /* MOBILE SOCIAL ICONS BOX */
+  .mobile-socials { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    gap: 30px; 
+    margin-top: 10px;
+  }
+  
+  .mobile-icon {
+    width: 40px; /* Slightly larger for thumb-tapping */
+    height: 40px;
+  }
 
   /* --- MOBILE OPTIMIZATION --- */
   @media (max-width: 1024px) {
     .nav-desktop { display: none; }
     .hamburger { display: block; }
-    
-    .header-bar { height: 120px; } /* Taller header for mobile presence */
-    
-    .logo-link { width: 50%; } /* Logo spans halfway */
+    .header-bar { height: 120px; }
+    .logo-link { width: 50%; }
     .logo-img { height: auto; width: 100%; max-width: 220px; }
   }
 
