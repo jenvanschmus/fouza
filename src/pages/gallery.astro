@@ -5,7 +5,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const itemFiles = import.meta.glob('../content/gallery/*.md', { eager: true });
 const allItems = Object.values(itemFiles) as any[];
 
-// Alphabetical Sort Logic (A to Z by Title)
+// Alphabetical Sort
 const sortedItems = allItems.sort((a, b) => {
   const titleA = a.frontmatter.title || "";
   const titleB = b.frontmatter.title || "";
@@ -62,7 +62,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
               <div class="item-header">
                 <h3 class="item-title">{item.frontmatter.title}</h3>
               </div>
-              
               <div class="item-description">
                 <item.Content />
               </div>
@@ -140,14 +139,13 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     position: relative;
     min-height: 100vh;
     background: #fff;
-    overflow: hidden;
+    overflow-x: hidden;
   }
 
-  /* Steampunk technical grid effect */
   .technical-grid {
     position: absolute;
     inset: 0;
-    opacity: 0.04; /* Matches Contact page */
+    opacity: 0.04;
     pointer-events: none;
     background-image: 
       linear-gradient(#000 1px, transparent 1px),
@@ -160,12 +158,11 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     z-index: 10;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 100px 40px;
+    padding: 60px 20px; /* Reduced padding for mobile friendliness */
   }
 
-  .gallery-header { text-align: center; margin-bottom: 80px; }
+  .gallery-header { text-align: center; margin-bottom: 60px; }
 
-  /* Blueprint/Phase label styling */
   .blueprint-label {
     font-family: 'Special Elite', monospace !important;
     font-size: 10px;
@@ -179,48 +176,74 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     font-size: 3.5rem; 
     letter-spacing: 0.15em; 
     text-transform: uppercase; 
-    margin-bottom: 40px; 
+    margin-bottom: 30px; 
     color: #111; 
   }
   
-  .filter-wrapper { margin-bottom: 40px; }
-  .filter-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 20px; }
-  .filter-chip { cursor: pointer; }
-  .cat-checkbox { display: none; }
+  /* Filter Controls: Flex Wrap for small screens */
+  .filter-controls { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 10px; 
+    margin-bottom: 20px; 
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .chip-label { 
     display: inline-block; 
-    padding: 10px 20px; 
+    padding: 8px 15px; 
     border: 1px solid #ccc; 
-    font-size: 0.7rem; 
+    font-size: 0.65rem; 
     text-transform: uppercase; 
-    letter-spacing: 0.15em; 
+    letter-spacing: 0.1em; 
     color: #444; 
-    background: #fff; /* Ensures chips stand out against grid */
+    background: #fff;
     transition: all 0.2s ease; 
+    white-space: nowrap;
   }
   .cat-checkbox:checked + .chip-label { background: #111; color: #fff; border-color: #111; }
   
-  .clear-btn { background: none; border: none; text-decoration: underline; text-underline-offset: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #666; cursor: pointer; }
-  
-  .search-section { max-width: 400px; margin: 0 auto; position: relative; }
-  #gallery-search { width: 100%; border: none; background: transparent; padding: 15px; text-align: center; font-size: 0.9rem; letter-spacing: 0.1em; outline: none; text-transform: uppercase; color: #111; }
+  .search-section { max-width: 300px; margin: 0 auto 40px; }
+  #gallery-search { width: 100%; border: none; background: transparent; padding: 10px; text-align: center; font-size: 0.85rem; text-transform: uppercase; color: #111; }
   .search-line { height: 1px; background: #999; width: 100%; }
-  
-  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 80px 40px; }
-  
+
+  /* THE DYNAMIC GRID */
+  .gallery-grid { 
+    display: grid; 
+    /* auto-fill + minmax handles the column count automatically */
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+    gap: 60px 30px; 
+  }
+
   .image-frame { 
     aspect-ratio: 11 / 10; 
     background: #fcfcfc; 
     border: 1px solid #e0e0e0; 
     overflow: hidden; 
-    margin-bottom: 25px; 
+    margin-bottom: 20px; 
   }
   .image-frame img { width: 100%; height: 100%; object-fit: cover; }
   
-  .item-title { font-size: 1.6rem; text-transform: uppercase; margin: 0 0 15px 0; color: #111; }
-  .item-description { font-family: sans-serif !important; font-size: 0.95rem; color: #333; line-height: 1.7; }
-  
-  .empty-state { text-align: center; padding: 100px 0; color: #444; text-transform: uppercase; letter-spacing: 0.2em; }
-  
-  @media (max-width: 768px) { .gallery-grid { grid-template-columns: 1fr; } .univern-font { font-size: 2.2rem; } }
+  .item-title { font-size: 1.4rem; text-transform: uppercase; margin: 0 0 10px 0; color: #111; }
+  .item-description { font-family: sans-serif !important; font-size: 0.9rem; color: #333; line-height: 1.6; }
+
+  /* MOBILE BREAKPOINTS */
+  @media (max-width: 768px) {
+    .univern-font { font-size: 2.2rem; }
+    .gallery-grid { 
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 40px 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .univern-font { font-size: 1.8rem; letter-spacing: 0.1em; }
+    .gallery-grid { 
+      grid-template-columns: 1fr; /* Force 1 column on very small phones */
+    }
+    .gallery-content-container { padding: 40px 15px; }
+  }
 </style>
