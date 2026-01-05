@@ -1,8 +1,8 @@
 ---
 const links = [
-  { name: 'Instagram', url: 'https://instagram.com/yourprofile' },
-  { name: 'YouTube', url: 'https://youtube.com/@yourchannel' },
-  { name: 'Etsy', url: 'https://etsy.com/shop/yourshop' }
+  { name: 'Instagram', url: 'https://www.instagram.com/jen.van.schmus/' },
+  { name: 'YouTube', url: 'https://www.youtube.com/@jenvanschmus' },
+  { name: 'Etsy', url: 'https://www.etsy.com/shop/fouza' }
 ];
 ---
 
@@ -12,7 +12,7 @@ const links = [
       <img src="/site-assets/home-logo.png" alt="Home" class="logo-img" />
     </a>
 
-    <nav class="nav-container">
+    <nav class="nav-desktop">
       <div class="nav-group">
         <a href="/gallery" class="nav-link">Gallery</a>
         <a href="/contact" class="nav-link">Contact</a>
@@ -22,15 +22,53 @@ const links = [
 
       <div class="social-group">
         {links.map(l => (
-          <a href={l.url} target="_blank" class="social-item">
+          <a href={l.url} target="_blank" class="social-item" title={l.name}>
             <img src={`/external-links/${l.name.toLowerCase()}.png`} class="social-icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
             <span class="social-fallback">{l.name}</span>
           </a>
         ))}
       </div>
     </nav>
+
+    <button id="menu-toggle" class="hamburger" aria-label="Open Menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="mobile-overlay">
+    <div class="mobile-inner">
+      <nav class="mobile-nav">
+        <p class="menu-label">Archive Navigation</p>
+        <a href="/gallery" class="mobile-link">Gallery</a>
+        <a href="/contact" class="mobile-link">Contact</a>
+        
+        <div class="mobile-divider"></div>
+        
+        <p class="menu-label">External Links</p>
+        <div class="mobile-socials">
+          {links.map(l => (
+            <a href={l.url} target="_blank" class="mobile-link">{l.name}</a>
+          ))}
+        </div>
+      </nav>
+    </div>
   </div>
 </header>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const body = document.body;
+
+  menuToggle?.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    mobileMenu?.classList.toggle('open');
+    // Prevent scrolling when menu is open
+    body.classList.toggle('no-scroll');
+  });
+</script>
 
 <style>
   .header-bar {
@@ -54,28 +92,106 @@ const links = [
     align-items: center;
   }
 
-  .logo-img {
-    height: 80px; /* 80% of 100px */
-    width: auto;
-  }
+  .logo-img { height: 70px; width: auto; }
 
-  .nav-container { display: flex; align-items: center; gap: 60px; }
-
-  .nav-group {
-    display: flex;
-    gap: 80px; /* INCREASED SPACING */
-  }
-
+  /* DESKTOP NAV STYLES */
+  .nav-desktop { display: flex; align-items: center; gap: 60px; }
+  .nav-group { display: flex; gap: 60px; }
   .nav-link {
     text-decoration: none;
-    color: #000;
-    font-size: 1.2rem;
+    color: #111;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.2em;
+    transition: opacity 0.3s;
   }
+  .nav-link:hover { opacity: 0.5; }
 
   .line-divider { width: 1px; height: 30px; background: #eee; }
   .social-group { display: flex; gap: 20px; }
-  .social-icon { width: 22px; height: 22px; filter: grayscale(1); opacity: 0.4; }
-  .social-fallback { display: none; font-size: 0.8rem; }
+  .social-icon { width: 22px; height: 22px; filter: grayscale(1); opacity: 0.6; transition: opacity 0.3s; }
+  .social-icon:hover { opacity: 1; }
+  .social-fallback { display: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #111; }
+
+  /* HAMBURGER STYLES */
+  .hamburger {
+    display: none; /* Hidden on desktop */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 10001;
+  }
+
+  .bar {
+    display: block;
+    width: 25px;
+    height: 1px;
+    background: #111;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+
+  /* Hamburger Animation to 'X' */
+  .hamburger.active .bar:nth-child(1) { transform: rotate(-45deg) translate(-5px, 5px); }
+  .hamburger.active .bar:nth-child(2) { opacity: 0; }
+  .hamburger.active .bar:nth-child(3) { transform: rotate(45deg) translate(-5px, -5px); }
+
+  /* MOBILE OVERLAY */
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Hidden by default */
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+    z-index: 10000;
+    transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-overlay.open { right: 0; }
+  .mobile-inner { text-align: center; }
+  
+  .menu-label {
+    font-family: 'Special Elite', monospace !important;
+    font-size: 10px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    margin-bottom: 30px;
+  }
+
+  .mobile-nav { display: flex; flex-direction: column; gap: 20px; }
+  .mobile-link {
+    font-size: 1.8rem;
+    color: #111;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .mobile-divider {
+    height: 1px;
+    background: #eee;
+    width: 40px;
+    margin: 40px auto;
+  }
+
+  .mobile-socials { display: flex; flex-direction: column; gap: 15px; }
+  .mobile-socials .mobile-link { font-size: 1.2rem; color: #666; }
+
+  /* --- RESPONSIVE LOGIC --- */
+  @media (max-width: 1024px) {
+    .header-inner { padding: 0 30px; }
+    .nav-desktop { display: none; } /* Switch to hamburger */
+    .hamburger { display: block; }
+  }
+
+  @media (max-width: 480px) {
+    .logo-img { height: 50px; }
+    .header-bar { height: 80px; }
+  }
 </style>
