@@ -30,8 +30,8 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
                 <span class="chip-label">{cat}</span>
               </label>
             ))}
+            <button id="clear-filters" class="clear-btn" style="display: none;">Clear All</button>
           </div>
-          <button id="clear-filters" class="clear-btn" style="display: none;">Clear All</button>
         </div>
 
         <div class="search-section">
@@ -189,20 +189,12 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
 </script>
 
 <style>
-  /* --- Global Highlight Fixes --- */
   :global(html, body) {
     overflow-x: hidden;
     position: relative;
     width: 100%;
     box-sizing: border-box;
-    /* Removes the blue tap highlight on mobile */
     -webkit-tap-highlight-color: transparent; 
-  }
-
-  /* Specific clickable items should also have no blue highlight */
-  .gallery-card, .filter-chip, .lightbox-close, button {
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
   }
 
   .gallery-page-wrapper { position: relative; min-height: 100vh; background: #fff; width: 100%; }
@@ -213,15 +205,11 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .blueprint-label { font-family: 'Special Elite', monospace !important; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5em; color: #999; margin-bottom: 20px; text-align: center; }
   .gallery-header { text-align: center; margin-bottom: 60px; }
 
-  /* --- Filter Styling (No Checkboxes) --- */
   .filter-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
-  
-  .cat-checkbox { 
-    /* Completely hide the actual checkbox but keep it for logic */
-    display: none; 
-  }
+  .cat-checkbox { display: none; }
 
-  .chip-label { 
+  /* MATCHED BUTTON STYLING */
+  .chip-label, .clear-btn { 
     display: inline-block; 
     padding: 8px 18px; 
     border: 1px solid #ccc; 
@@ -232,6 +220,19 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     background: #fff; 
     cursor: pointer; 
     transition: all 0.2s ease; 
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .clear-btn {
+    border-color: #111;
+    color: #111;
+    font-weight: bold;
+  }
+
+  .clear-btn:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
   }
 
   .cat-checkbox:checked + .chip-label { 
@@ -250,7 +251,7 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     gap: 80px 40px; 
   }
 
-  .gallery-card { display: flex; flex-direction: column; cursor: pointer; transition: transform 0.3s ease; }
+  .gallery-card { display: flex; flex-direction: column; cursor: pointer; transition: transform 0.3s ease; -webkit-tap-highlight-color: transparent; }
   .image-frame { aspect-ratio: 10 / 11; background: #fcfcfc; border: 1px solid #e0e0e0; overflow: hidden; margin-bottom: 20px; }
   .image-frame img { width: 100%; height: 100%; object-fit: cover; }
   .item-title { font-size: 1.3rem; text-transform: uppercase; margin-bottom: 10px; color: #111; }
@@ -290,7 +291,19 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .modal-body { display: flex; width: 100%; height: 100%; overflow: hidden; }
   .modal-image-container { flex: 1.3; background: #f5f5f5; overflow: hidden; display: flex; align-items: center; justify-content: center; border-right: 1px solid #eee; cursor: zoom-in; }
   .modal-image-container img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
+  
   .modal-text-container { flex: 0.7; padding: 60px 50px; text-align: left; display: flex; flex-direction: column; justify-content: center; background: #fff; overflow-y: auto; }
+  
+  /* PREVENT WORD SPLITTING IN MODAL */
+  .modal-desc { 
+    font-size: 1.1rem; 
+    line-height: 1.8; 
+    color: #222; 
+    hyphens: none; 
+    overflow-wrap: normal; 
+    word-break: normal; 
+    text-align: left;
+  }
 
   @media (max-width: 768px) {
     .gallery-content-container { padding: 40px 20px; }
@@ -303,7 +316,7 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     .modal-image-container { border-right: none; border-bottom: 1px solid #eee; height: 40vh; flex: none; pointer-events: none; }
     .modal-text-container { padding: 30px 20px; flex: none; height: auto; }
     .modal-text-container h2 { font-size: 1.5rem; margin-bottom: 15px; }
-    .modal-desc { font-size: 0.95rem; }
+    .modal-desc { font-size: 0.95rem; line-height: 1.6; }
   }
 
   @media (max-width: 380px) {
