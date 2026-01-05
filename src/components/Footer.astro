@@ -1,8 +1,7 @@
 <footer class="site-footer">
-  <div class="footer-grid">
-    <div class="spacer"></div>
-    
-    <div class="footer-content">
+  <div class="footer-container">
+    <div class="footer-grid">
+      
       <div class="col">
         <h4 class="label">Sitemap</h4>
         <div class="link-list">
@@ -11,78 +10,148 @@
           <a href="/contact">Contact</a>
         </div>
       </div>
+
       <div class="col">
-        <h4 class="label">Inquiries</h4>
+        <h4 class="label">Connect</h4>
         <div class="link-list">
-          <a href="mailto:curiosity@fouza.com" class="email-text">curiosity@fouza.com</a>
+          <a href="https://www.instagram.com/jen.van.schmus/" target="_blank">Instagram</a>
+          <a href="https://www.youtube.com/@jenvanschmus" target="_blank">YouTube</a>
+          <a href="https://www.etsy.com/shop/fouza" target="_blank">Etsy Shop</a>
         </div>
       </div>
+
+      <div class="col">
+        <h4 class="label">Archive Inquiries</h4>
+        <div class="link-list">
+          <a href="mailto:curiosity@fouza.com" class="email-text">curiosity@fouza.com</a>
+          <span class="location-tag">California Workshop</span>
+        </div>
+      </div>
+
     </div>
 
-    <div class="spacer"></div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>© {new Date().getFullYear()} // FOUZA WORKSHOP ARCHIVE</p>
+    <div class="footer-bottom">
+      <div class="mechanical-line"></div>
+      <p>© {new Date().getFullYear()} // FOUZA WORKSHOP ARCHIVE</p>
+    </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    padding: 120px 0 60px 0;
-    border-top: 1px solid #f2f2f2;
-    background: white;
+    padding: 100px 20px 60px 20px;
+    border-top: 1px solid #eee;
+    background: #fff;
+    position: relative;
+    z-index: 20; /* Ensures it sits above any grid backgrounds */
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .footer-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-  }
-
-  .footer-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* Desktop: 3 equal columns */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    text-align: center;
   }
 
   .col {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    gap: 25px;
   }
 
   .label {
-    font-size: 0.75rem;
-    color: #ccc;
+    font-family: 'Special Elite', monospace !important;
+    font-size: 0.7rem;
+    color: #999; /* Darkened label */
     text-transform: uppercase;
     letter-spacing: 0.4em;
+    margin: 0;
   }
 
   .link-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 12px;
   }
 
   .link-list a {
     text-decoration: none;
     color: #111;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
+    transition: opacity 0.3s ease;
+  }
+
+  .link-list a:hover {
+    opacity: 0.5;
   }
 
   .email-text {
     text-transform: lowercase !important;
-    opacity: 0.6;
+    font-family: sans-serif;
+    letter-spacing: 0.05em !important;
+  }
+
+  .location-tag {
+    font-size: 0.75rem;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-top: 5px;
   }
 
   .footer-bottom {
-    margin-top: 100px;
+    margin-top: 80px;
     text-align: center;
+  }
+
+  .mechanical-line {
+    height: 1px;
+    background: #f2f2f2;
+    width: 100px;
+    margin: 0 auto 30px auto;
+  }
+
+  .footer-bottom p {
     font-size: 9px;
-    letter-spacing: 0.6em;
-    color: #ddd;
+    letter-spacing: 0.5em;
+    color: #bbb;
+    text-transform: uppercase;
+  }
+
+  /* --- RESPONSIVE OPTIMIZATION --- */
+
+  /* Tablet: 2 columns if needed, but 1 usually looks cleaner for this style */
+  @media (max-width: 900px) {
+    .footer-grid {
+      gap: 50px;
+    }
+  }
+
+  /* Mobile: Single Column Stack */
+  @media (max-width: 768px) {
+    .site-footer {
+      padding: 80px 20px 40px 20px;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr; /* Stack columns */
+      gap: 60px;
+    }
+
+    .label {
+      font-size: 0.65rem;
+    }
+
+    .link-list a {
+      font-size: 1.1rem; /* Slightly larger for easier tapping on mobile */
+    }
   }
 </style>
