@@ -158,7 +158,7 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     z-index: 10;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 60px 20px; /* Reduced padding for mobile friendliness */
+    padding: 60px 20px;
   }
 
   .gallery-header { text-align: center; margin-bottom: 60px; }
@@ -180,7 +180,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     color: #111; 
   }
   
-  /* Filter Controls: Flex Wrap for small screens */
   .filter-controls { 
     display: flex; 
     flex-wrap: wrap; 
@@ -192,28 +191,60 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     margin-right: auto;
   }
 
+  /* Aggressively hiding the actual checkbox */
+  .cat-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+  }
+
   .chip-label { 
     display: inline-block; 
-    padding: 8px 15px; 
+    padding: 8px 18px; 
     border: 1px solid #ccc; 
-    font-size: 0.65rem; 
+    font-size: 0.7rem; 
     text-transform: uppercase; 
-    letter-spacing: 0.1em; 
+    letter-spacing: 0.12em; 
     color: #444; 
     background: #fff;
+    cursor: pointer;
     transition: all 0.2s ease; 
     white-space: nowrap;
+    user-select: none;
   }
-  .cat-checkbox:checked + .chip-label { background: #111; color: #fff; border-color: #111; }
+
+  .cat-checkbox:checked + .chip-label { 
+    background: #111; 
+    color: #fff; 
+    border-color: #111; 
+  }
+
+  .cat-checkbox:focus + .chip-label {
+    border-color: #111;
+  }
+  
+  .clear-btn { 
+    background: none; 
+    border: none; 
+    text-decoration: underline; 
+    text-underline-offset: 4px; 
+    font-size: 10px; 
+    text-transform: uppercase; 
+    letter-spacing: 0.1em; 
+    color: #666; 
+    cursor: pointer; 
+  }
   
   .search-section { max-width: 300px; margin: 0 auto 40px; }
-  #gallery-search { width: 100%; border: none; background: transparent; padding: 10px; text-align: center; font-size: 0.85rem; text-transform: uppercase; color: #111; }
+  #gallery-search { width: 100%; border: none; background: transparent; padding: 10px; text-align: center; font-size: 0.85rem; text-transform: uppercase; color: #111; outline: none; }
   .search-line { height: 1px; background: #999; width: 100%; }
 
-  /* THE DYNAMIC GRID */
   .gallery-grid { 
     display: grid; 
-    /* auto-fill + minmax handles the column count automatically */
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
     gap: 60px 30px; 
   }
@@ -230,7 +261,8 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .item-title { font-size: 1.4rem; text-transform: uppercase; margin: 0 0 10px 0; color: #111; }
   .item-description { font-family: sans-serif !important; font-size: 0.9rem; color: #333; line-height: 1.6; }
 
-  /* MOBILE BREAKPOINTS */
+  .empty-state { text-align: center; padding: 100px 0; color: #444; text-transform: uppercase; letter-spacing: 0.2em; }
+
   @media (max-width: 768px) {
     .univern-font { font-size: 2.2rem; }
     .gallery-grid { 
@@ -241,9 +273,7 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
 
   @media (max-width: 480px) {
     .univern-font { font-size: 1.8rem; letter-spacing: 0.1em; }
-    .gallery-grid { 
-      grid-template-columns: 1fr; /* Force 1 column on very small phones */
-    }
+    .gallery-grid { grid-template-columns: 1fr; }
     .gallery-content-container { padding: 40px 15px; }
   }
 </style>
