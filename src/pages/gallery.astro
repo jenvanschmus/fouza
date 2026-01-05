@@ -16,62 +16,65 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
 ---
 
 <BaseLayout title="Gallery">
-  <div class="gallery-page">
-    
-    <header class="gallery-header">
-      <h1 class="univern-font">Gallery</h1>
-      
-      <div class="filter-wrapper">
-        <div class="filter-controls">
-          {categories.map(cat => (
-            <label class="filter-chip">
-              <input type="checkbox" name="category" value={cat.toLowerCase()} class="cat-checkbox" />
-              <span class="chip-label">{cat}</span>
-            </label>
-          ))}
-        </div>
-        <button id="clear-filters" class="clear-btn" style="display: none;">Clear All</button>
-      </div>
+  <div class="gallery-page-wrapper">
+    <div class="technical-grid"></div>
 
-      <div class="search-section">
-        <input 
-          type="text" 
-          id="gallery-search" 
-          placeholder="Search by keyword..." 
-          autocomplete="off"
-        />
-        <div class="search-line"></div>
-      </div>
-    </header>
-
-    <section class="gallery-grid" id="main-grid">
-      {sortedItems.map((item) => (
-        <div 
-          class="gallery-card" 
-          data-category={Array.isArray(item.frontmatter.category) ? item.frontmatter.category.map(c => c.toLowerCase()).join(' ') : item.frontmatter.category?.toLowerCase() || ""}
-          data-search={`${item.frontmatter.title} ${item.rawContent ? item.rawContent() : ''}`.toLowerCase()}
-        >
-          <div class="image-frame">
-            <img src={item.frontmatter.image} alt={item.frontmatter.title} loading="lazy" />
+    <div class="gallery-content-container">
+      <header class="gallery-header">
+        <p class="blueprint-label">Phase // 02 — Exhibition</p>
+        <h1 class="univern-font">Gallery</h1>
+        
+        <div class="filter-wrapper">
+          <div class="filter-controls">
+            {categories.map(cat => (
+              <label class="filter-chip">
+                <input type="checkbox" name="category" value={cat.toLowerCase()} class="cat-checkbox" />
+                <span class="chip-label">{cat}</span>
+              </label>
+            ))}
           </div>
-          
-          <div class="item-content">
-            <div class="item-header">
-              <h3 class="item-title">{item.frontmatter.title}</h3>
+          <button id="clear-filters" class="clear-btn" style="display: none;">Clear All</button>
+        </div>
+
+        <div class="search-section">
+          <input 
+            type="text" 
+            id="gallery-search" 
+            placeholder="Search by keyword..." 
+            autocomplete="off"
+          />
+          <div class="search-line"></div>
+        </div>
+      </header>
+
+      <section class="gallery-grid" id="main-grid">
+        {sortedItems.map((item) => (
+          <div 
+            class="gallery-card" 
+            data-category={Array.isArray(item.frontmatter.category) ? item.frontmatter.category.map(c => c.toLowerCase()).join(' ') : item.frontmatter.category?.toLowerCase() || ""}
+            data-search={`${item.frontmatter.title} ${item.rawContent ? item.rawContent() : ''}`.toLowerCase()}
+          >
+            <div class="image-frame">
+              <img src={item.frontmatter.image} alt={item.frontmatter.title} loading="lazy" />
             </div>
             
-            <div class="item-description">
-              <item.Content />
+            <div class="item-content">
+              <div class="item-header">
+                <h3 class="item-title">{item.frontmatter.title}</h3>
+              </div>
+              
+              <div class="item-description">
+                <item.Content />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </section>
+        ))}
+      </section>
 
-    <div id="no-results" class="empty-state" style="display: none;">
-      <p>No matching pieces found in the archive.</p>
+      <div id="no-results" class="empty-state" style="display: none;">
+        <p>No matching pieces found in the archive.</p>
+      </div>
     </div>
-
   </div>
 </BaseLayout>
 
@@ -133,15 +136,68 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
 </script>
 
 <style>
-  .gallery-page { max-width: 1400px; margin: 0 auto; padding: 100px 40px; }
+  .gallery-page-wrapper {
+    position: relative;
+    min-height: 100vh;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  /* Steampunk technical grid effect */
+  .technical-grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04; /* Matches Contact page */
+    pointer-events: none;
+    background-image: 
+      linear-gradient(#000 1px, transparent 1px),
+      linear-gradient(90deg, #000 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .gallery-content-container {
+    position: relative;
+    z-index: 10;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px 40px;
+  }
+
   .gallery-header { text-align: center; margin-bottom: 80px; }
-  .univern-font { font-size: 3.5rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 40px; color: #111; }
+
+  /* Blueprint/Phase label styling */
+  .blueprint-label {
+    font-family: 'Special Elite', monospace !important;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    color: #999;
+    margin-bottom: 20px;
+  }
+
+  .univern-font { 
+    font-size: 3.5rem; 
+    letter-spacing: 0.15em; 
+    text-transform: uppercase; 
+    margin-bottom: 40px; 
+    color: #111; 
+  }
   
   .filter-wrapper { margin-bottom: 40px; }
   .filter-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 20px; }
   .filter-chip { cursor: pointer; }
   .cat-checkbox { display: none; }
-  .chip-label { display: inline-block; padding: 10px 20px; border: 1px solid #ccc; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: #444; transition: all 0.2s ease; }
+  .chip-label { 
+    display: inline-block; 
+    padding: 10px 20px; 
+    border: 1px solid #ccc; 
+    font-size: 0.7rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.15em; 
+    color: #444; 
+    background: #fff; /* Ensures chips stand out against grid */
+    transition: all 0.2s ease; 
+  }
   .cat-checkbox:checked + .chip-label { background: #111; color: #fff; border-color: #111; }
   
   .clear-btn { background: none; border: none; text-decoration: underline; text-underline-offset: 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #666; cursor: pointer; }
@@ -152,7 +208,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   
   .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 80px 40px; }
   
-  /* 11:10 Aspect Ratio */
   .image-frame { 
     aspect-ratio: 11 / 10; 
     background: #fcfcfc; 
@@ -160,7 +215,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     overflow: hidden; 
     margin-bottom: 25px; 
   }
-  
   .image-frame img { width: 100%; height: 100%; object-fit: cover; }
   
   .item-title { font-size: 1.6rem; text-transform: uppercase; margin: 0 0 15px 0; color: #111; }
