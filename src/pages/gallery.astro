@@ -72,7 +72,7 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
       <span class="lightbox-close">&times;</span>
       
       <div class="modal-body">
-        <div class="modal-image-container">
+        <div class="modal-image-container" id="zoom-container">
           <img id="lightbox-img" src="" alt="" />
         </div>
         <div class="modal-text-container">
@@ -93,11 +93,30 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const zoomContainer = document.getElementById('zoom-container');
   const lightboxTitle = document.getElementById('lightbox-title');
   const lightboxDesc = document.getElementById('lightbox-desc');
   const closeBtn = document.querySelector('.lightbox-close');
 
-  /* --- Improved Lightbox Logic --- */
+  /* --- Expanded Zoom Functionality --- */
+  zoomContainer?.addEventListener('mousemove', (e: MouseEvent) => {
+    const rect = zoomContainer.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    if (lightboxImg) {
+      lightboxImg.style.transformOrigin = `${x}% ${y}%`;
+      lightboxImg.style.transform = 'scale(2.5)';
+    }
+  });
+
+  zoomContainer?.addEventListener('mouseleave', () => {
+    if (lightboxImg) {
+      lightboxImg.style.transform = 'scale(1)';
+    }
+  });
+
+  /* --- Lightbox Logic --- */
   document.querySelectorAll('.expand-trigger').forEach(trigger => {
     trigger.addEventListener('click', () => {
       const img = trigger.querySelector('img');
@@ -117,6 +136,7 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   const closeLightbox = () => {
     lightbox?.classList.remove('active');
     document.body.style.overflow = '';
+    if (lightboxImg) lightboxImg.style.transform = 'scale(1)';
   };
 
   closeBtn?.addEventListener('click', closeLightbox);
@@ -160,82 +180,98 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .technical-grid { position: absolute; inset: 0; opacity: 0.04; pointer-events: none; background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 40px 40px; }
   .gallery-content-container { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 60px 20px; }
   
-  .gallery-header { text-align: center; margin-bottom: 60px; }
-  .blueprint-label { font-family: 'Special Elite', monospace !important; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5em; color: #999; margin-bottom: 20px; }
   .univern-font { font-size: 3.5rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 30px; color: #111; }
-  
+  .blueprint-label { font-family: 'Special Elite', monospace !important; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5em; color: #999; margin-bottom: 20px; text-align: center; }
+  .gallery-header { text-align: center; margin-bottom: 60px; }
+
   .filter-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
   .cat-checkbox { position: absolute; opacity: 0; pointer-events: none; }
   .chip-label { display: inline-block; padding: 8px 18px; border: 1px solid #ccc; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: #444; background: #fff; cursor: pointer; transition: 0.2s; }
   .cat-checkbox:checked + .chip-label { background: #111; color: #fff; border-color: #111; }
   
-  .search-section { max-width: 300px; margin: 0 auto 40px; }
   #gallery-search { width: 100%; border: none; background: transparent; padding: 10px; text-align: center; font-size: 0.85rem; text-transform: uppercase; color: #111; outline: none; }
+  .search-section { max-width: 300px; margin: 0 auto 40px; }
   .search-line { height: 1px; background: #999; width: 100%; }
 
   /* GALLERY GRID */
   .gallery-grid { 
     display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
     gap: 80px 40px; 
   }
 
-  /* CARD INTERACTION */
   .gallery-card { 
     display: flex; 
     flex-direction: column; 
     cursor: pointer;
     transition: transform 0.3s ease;
-    /* FIX FOR MOBILE BLUE HIGHLIGHT */
     -webkit-tap-highlight-color: transparent;
   }
-  
-  .gallery-card:hover {
-    transform: scale(1.02);
-  }
+  .gallery-card:hover { transform: scale(1.02); }
 
+  /* UPDATED RATIO 10:11 */
   .image-frame { 
-    aspect-ratio: 11 / 10; 
+    aspect-ratio: 10 / 11; 
     background: #fcfcfc; 
     border: 1px solid #e0e0e0; 
     overflow: hidden; 
-    position: relative; 
     margin-bottom: 20px;
   }
   .image-frame img { width: 100%; height: 100%; object-fit: cover; }
 
   .item-title { font-size: 1.3rem; text-transform: uppercase; margin-bottom: 10px; color: #111; }
   .item-description { font-family: sans-serif !important; font-size: 0.95rem; line-height: 1.6; color: #444; }
-  .main-view-desc { 
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Keeps grid neat by limiting preview text */
-    -webkit-box-orient: vertical;  
-    overflow: hidden;
-  }
+  .main-view-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
   /* LIGHTBOX MODAL */
   .lightbox { 
     display: none; position: fixed; inset: 0; z-index: 10000; 
-    background: rgba(0,0,0,0.5); 
+    background: rgba(0,0,0,0.6); 
     padding: 5vh 5vw; align-items: center; justify-content: center; 
   }
   .lightbox.active { display: flex; }
 
   .lightbox-modal { 
-    background: #fff; width: 100%; max-width: 1200px; max-height: 90vh; 
+    background: #fff; width: 100%; max-width: 1200px; height: 85vh; 
     position: relative; overflow: hidden; border: 1px solid #111; 
-    box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
     display: flex;
   }
 
   .lightbox-close { position: absolute; top: 20px; right: 25px; font-size: 35px; cursor: pointer; z-index: 20; color: #111; }
 
-  .modal-body { display: flex; width: 100%; height: 100%; overflow-y: auto; }
-  .modal-image-container { flex: 1.4; background: #f9f9f9; display: flex; align-items: center; justify-content: center; border-right: 1px solid #eee; }
-  .modal-image-container img { width: 100%; height: 100%; object-fit: contain; padding: 40px; }
+  .modal-body { display: flex; width: 100%; height: 100%; }
   
-  .modal-text-container { flex: 0.6; padding: 60px 50px; text-align: left; display: flex; flex-direction: column; justify-content: center; background: #fff; }
-  .modal-text-container h2 { font-size: 2.5rem; margin-bottom: 25px; line-height: 1.1; }
+  /* ZOOMABLE IMAGE CONTAINER */
+  .modal-image-container { 
+    flex: 1.3; 
+    background: #f5f5f5; 
+    overflow: hidden; /* Important for zoom cropping */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border-right: 1px solid #eee; 
+    cursor: zoom-in;
+  }
+  .modal-image-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+    transition: transform 0.1s ease-out; /* Smooth zoom tracking */
+    pointer-events: none; /* Prevents img dragging from breaking mousemove */
+  }
+  
+  .modal-text-container { 
+    flex: 0.7; 
+    padding: 60px 50px; 
+    text-align: left; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    background: #fff;
+    overflow-y: auto;
+  }
+  .modal-text-container h2 { font-size: 2.2rem; margin-bottom: 25px; }
   .modal-desc { font-size: 1.1rem; line-height: 1.8; color: #222; }
 
   /* MOBILE RESPONSIVE */
@@ -243,19 +279,13 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     .gallery-content-container { padding: 40px 40px; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 20px; }
     
-    .item-title { font-size: 1rem; }
-    .main-view-desc { -webkit-line-clamp: 2; font-size: 0.85rem; }
-    
-    .modal-body { flex-direction: column; }
-    .modal-image-container { border-right: none; border-bottom: 1px solid #eee; min-height: 300px; }
-    .modal-image-container img { padding: 20px; }
-    .modal-text-container { padding: 40px 30px; }
-    .modal-text-container h2 { font-size: 1.8rem; }
+    .modal-body { flex-direction: column; overflow-y: auto; }
+    .modal-image-container { border-right: none; border-bottom: 1px solid #eee; height: 50vh; flex: none; cursor: default; }
+    .modal-image-container img { height: 100%; padding: 20px; }
+    .modal-text-container { padding: 40px 30px; flex: none; }
     .lightbox { padding: 2vh 2vw; }
-  }
-
-  @media (max-width: 480px) {
-    .gallery-content-container { padding: 40px 25px; }
-    .gallery-grid { gap: 30px 15px; }
+    
+    /* Disable zoom on mobile to avoid scroll conflicts */
+    .modal-image-container { pointer-events: none; }
   }
 </style>
