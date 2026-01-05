@@ -201,14 +201,22 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .technical-grid { position: absolute; inset: 0; opacity: 0.04; pointer-events: none; background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 40px 40px; }
   .gallery-content-container { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; padding: 60px 20px; width: 100%; box-sizing: border-box; }
   
-  .univern-font { font-size: clamp(2rem, 8vw, 3.5rem); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 30px; color: #111; word-break: break-word; }
+  .univern-font { 
+    font-size: clamp(2rem, 8vw, 3.5rem); 
+    letter-spacing: 0.15em; 
+    text-transform: uppercase; 
+    margin-bottom: 30px; 
+    color: #111; 
+    word-break: normal; /* Added for title safety */
+    overflow-wrap: break-word; 
+  }
+
   .blueprint-label { font-family: 'Special Elite', monospace !important; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5em; color: #999; margin-bottom: 20px; text-align: center; }
   .gallery-header { text-align: center; margin-bottom: 60px; }
 
   .filter-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
   .cat-checkbox { display: none; }
 
-  /* MATCHED BUTTON STYLING */
   .chip-label, .clear-btn { 
     display: inline-block; 
     padding: 8px 18px; 
@@ -224,33 +232,15 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     -webkit-tap-highlight-color: transparent;
   }
 
-  .clear-btn {
-    border-color: #111;
-    color: #111;
-    font-weight: bold;
-  }
-
-  .clear-btn:hover {
-    background: #f0f0f0;
-    transform: translateY(-1px);
-  }
-
-  .cat-checkbox:checked + .chip-label { 
-    background: #111; 
-    color: #fff; 
-    border-color: #111; 
-  }
+  .clear-btn { border-color: #111; color: #111; font-weight: bold; }
+  .clear-btn:hover { background: #f0f0f0; transform: translateY(-1px); }
+  .cat-checkbox:checked + .chip-label { background: #111; color: #fff; border-color: #111; }
   
   #gallery-search { width: 100%; border: none; background: transparent; padding: 10px; text-align: center; font-size: 0.85rem; text-transform: uppercase; color: #111; outline: none; }
   .search-section { max-width: 300px; margin: 0 auto 40px; }
   .search-line { height: 1px; background: #999; width: 100%; }
 
-  .gallery-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-    gap: 80px 40px; 
-  }
-
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 80px 40px; }
   .gallery-card { display: flex; flex-direction: column; cursor: pointer; transition: transform 0.3s ease; -webkit-tap-highlight-color: transparent; }
   .image-frame { aspect-ratio: 10 / 11; background: #fcfcfc; border: 1px solid #e0e0e0; overflow: hidden; margin-bottom: 20px; }
   .image-frame img { width: 100%; height: 100%; object-fit: cover; }
@@ -258,34 +248,11 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .item-description { font-family: sans-serif !important; font-size: 0.95rem; line-height: 1.6; color: #444; }
   .main-view-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
-  .lightbox { 
-    display: none; position: fixed; inset: 0; z-index: 10000; 
-    background: rgba(0,0,0,0.8); 
-    padding: 5vh 5vw; align-items: center; justify-content: center; 
-  }
+  .lightbox { display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.8); padding: 5vh 5vw; align-items: center; justify-content: center; }
   .lightbox.active { display: flex; }
-
-  .lightbox-modal { 
-    background: #fff; width: 100%; max-width: 1200px; height: 85vh; 
-    position: relative; border: 1px solid #111; 
-    display: flex;
-    box-sizing: border-box;
-  }
-
+  .lightbox-modal { background: #fff; width: 100%; max-width: 1200px; height: 85vh; position: relative; border: 1px solid #111; display: flex; box-sizing: border-box; }
   .lightbox-close-wrapper { position: absolute; top: 20px; right: 25px; z-index: 100; }
-  .lightbox-close { 
-    font-size: 30px; 
-    cursor: pointer; 
-    color: #111; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: #fff;
-    border: 1px solid #111;
-    transition: all 0.2s ease;
-  }
+  .lightbox-close { font-size: 30px; cursor: pointer; color: #111; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #fff; border: 1px solid #111; transition: all 0.2s ease; }
   .lightbox-close:hover { background: #000; color: #fff; }
 
   .modal-body { display: flex; width: 100%; height: 100%; overflow: hidden; }
@@ -294,15 +261,18 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   
   .modal-text-container { flex: 0.7; padding: 60px 50px; text-align: left; display: flex; flex-direction: column; justify-content: center; background: #fff; overflow-y: auto; }
   
-  /* PREVENT WORD SPLITTING IN MODAL */
-  .modal-desc { 
+  /* FORCE WORDS TO REMAIN WHOLE */
+  .modal-desc, .modal-text-container h2 { 
     font-size: 1.1rem; 
     line-height: 1.8; 
     color: #222; 
-    hyphens: none; 
-    overflow-wrap: normal; 
-    word-break: normal; 
     text-align: left;
+    white-space: normal;
+    word-break: normal;        /* Prevents breaking words anywhere */
+    overflow-wrap: break-word; /* Only breaks if a word is LITERALLY too long for the entire line */
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+    -moz-hyphens: none !important;
   }
 
   @media (max-width: 768px) {
@@ -314,9 +284,11 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     .lightbox-close { box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
     .modal-body { flex-direction: column; overflow-y: auto; }
     .modal-image-container { border-right: none; border-bottom: 1px solid #eee; height: 40vh; flex: none; pointer-events: none; }
-    .modal-text-container { padding: 30px 20px; flex: none; height: auto; }
-    .modal-text-container h2 { font-size: 1.5rem; margin-bottom: 15px; }
-    .modal-desc { font-size: 0.95rem; line-height: 1.6; }
+    
+    /* GIVING TEXT MORE SPACE TO PREVENT SQUEEZING */
+    .modal-text-container { padding: 35px 25px; flex: none; height: auto; }
+    .modal-text-container h2 { font-size: 1.6rem; margin-bottom: 15px; }
+    .modal-desc { font-size: 1rem; line-height: 1.6; }
   }
 
   @media (max-width: 380px) {
