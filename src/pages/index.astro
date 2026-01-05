@@ -19,9 +19,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
       </div>
     </div>
-    
-    <div class="hero-meta">Ref. 2026 // Collection Archive</div>
-  </section>
+    </section>
 
   <section class="story-section">
     <div class="technical-grid"></div>
@@ -155,19 +153,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .hero-cta-button:hover { background: #fff; color: #111; }
 
-  .hero-meta {
-    position: absolute;
-    bottom: 40px;
-    right: 40px;
-    font-size: 10px;
-    letter-spacing: 0.5em;
-    color: #bbb;
-    text-transform: uppercase;
-    z-index: 5;
-    background: rgba(255,255,255,0.4);
-    padding: 5px 10px;
-  }
-
   /* STORY SECTION */
   .story-section { 
     position: relative;
@@ -188,7 +173,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   
   .story-header { text-align: left; margin-bottom: 60px; border-left: 1px solid #111; padding-left: 30px; }
 
-  /* Blueprint/Phase label styling */
   .blueprint-label {
     font-family: 'Special Elite', monospace !important;
     font-size: 10px;
@@ -198,7 +182,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     margin-bottom: 20px;
   }
 
-  .blueprint-id { display: block; font-size: 10px; color: #ccc; letter-spacing: 0.3em; margin-bottom: 10px; }
   .story-title { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.1; color: #111; }
   .story-body { display: flex; flex-direction: column; gap: 30px; text-align: left; }
   .story-body p { font-size: 1.1rem; line-height: 1.8; color: #333; }
@@ -221,9 +204,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .long-line { flex: 1; height: 1px; background: #111; }
   .gear-dot { width: 8px; height: 8px; border: 1px solid #111; border-radius: 50%; }
 
-  @media (max-width: 1024px) {
+  /* --- MOBILE OPTIMIZATION (2X TEXT SIZE) --- */
+  @media (max-width: 768px) {
+    .hero-wrapper { height: 700px; }
+    .hero-left-overlay { max-width: 100%; padding: 0 10px; }
+    
+    /* Etsy Box Scaling */
+    .etsy-promotion-box { padding: 80px 30px; }
+    .cta-label { font-size: 18px; }
+    .etsy-title { font-size: 3.5rem; }
+    .hero-cta-button { font-size: 1.8rem; padding: 25px 60px; }
+
+    /* Story Section Scaling */
+    .story-section { padding: 80px 0; }
+    .blueprint-label { font-size: 18px; margin-bottom: 30px; }
+    .story-title { font-size: 4.5rem; margin-bottom: 40px; }
+    .story-body p { font-size: 2rem; line-height: 1.6; }
+    
+    .cta-text { padding: 50px 30px; font-size: 1.8rem !important; }
+    
+    .signature-block p { font-size: 2.2rem; }
+    .signature-block .name { font-size: 3.5rem; }
+
+    .mechanical-footer { margin-top: 60px; }
+  }
+
+  /* Extra Tablet adjustment to bridge the gap */
+  @media (min-width: 769px) and (max-width: 1024px) {
     .hero-wrapper { height: 600px; }
     .hero-left-overlay { max-width: 100%; }
-    .etsy-promotion-box { padding: 40px 20px; }
   }
 </style>
