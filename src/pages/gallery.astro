@@ -100,13 +100,11 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   const lightboxDesc = document.getElementById('lightbox-desc');
   const closeBtn = document.querySelector('.lightbox-close');
 
-  /* --- Toggle Zoom Functionality --- */
   let isZoomed = false;
   const zoomScale = 1.875; 
 
   zoomContainer?.addEventListener('click', () => {
     isZoomed = !isZoomed;
-    
     if (lightboxImg && zoomContainer) {
       if (isZoomed) {
         lightboxImg.style.transform = `scale(${zoomScale})`;
@@ -125,7 +123,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     if (lightboxImg) lightboxImg.style.transformOrigin = `${x}% ${y}%`;
   });
 
-  /* --- Lightbox Logic --- */
   document.querySelectorAll('.expand-trigger').forEach(trigger => {
     trigger.addEventListener('click', () => {
       const img = trigger.querySelector('img');
@@ -161,7 +158,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     if (e.target === lightbox) closeLightbox();
   });
 
-  /* --- Filter Logic --- */
   function applyFilters() {
     const searchTerm = searchInput.value.toLowerCase();
     const activeFilters = Array.from(checkboxes)
@@ -193,12 +189,20 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
 </script>
 
 <style>
-  /* GLOBAL FIX FOR IPHONE OVERFLOW */
+  /* --- Global Highlight Fixes --- */
   :global(html, body) {
     overflow-x: hidden;
     position: relative;
     width: 100%;
     box-sizing: border-box;
+    /* Removes the blue tap highlight on mobile */
+    -webkit-tap-highlight-color: transparent; 
+  }
+
+  /* Specific clickable items should also have no blue highlight */
+  .gallery-card, .filter-chip, .lightbox-close, button {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
   }
 
   .gallery-page-wrapper { position: relative; min-height: 100vh; background: #fff; width: 100%; }
@@ -209,9 +213,32 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .blueprint-label { font-family: 'Special Elite', monospace !important; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5em; color: #999; margin-bottom: 20px; text-align: center; }
   .gallery-header { text-align: center; margin-bottom: 60px; }
 
+  /* --- Filter Styling (No Checkboxes) --- */
   .filter-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
-  .chip-label { display: inline-block; padding: 8px 18px; border: 1px solid #ccc; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: #444; background: #fff; cursor: pointer; transition: 0.2s; }
-  .cat-checkbox:checked + .chip-label { background: #111; color: #fff; border-color: #111; }
+  
+  .cat-checkbox { 
+    /* Completely hide the actual checkbox but keep it for logic */
+    display: none; 
+  }
+
+  .chip-label { 
+    display: inline-block; 
+    padding: 8px 18px; 
+    border: 1px solid #ccc; 
+    font-size: 0.7rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.12em; 
+    color: #444; 
+    background: #fff; 
+    cursor: pointer; 
+    transition: all 0.2s ease; 
+  }
+
+  .cat-checkbox:checked + .chip-label { 
+    background: #111; 
+    color: #fff; 
+    border-color: #111; 
+  }
   
   #gallery-search { width: 100%; border: none; background: transparent; padding: 10px; text-align: center; font-size: 0.85rem; text-transform: uppercase; color: #111; outline: none; }
   .search-section { max-width: 300px; margin: 0 auto 40px; }
@@ -230,7 +257,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .item-description { font-family: sans-serif !important; font-size: 0.95rem; line-height: 1.6; color: #444; }
   .main-view-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
-  /* LIGHTBOX MODAL */
   .lightbox { 
     display: none; position: fixed; inset: 0; z-index: 10000; 
     background: rgba(0,0,0,0.8); 
@@ -245,14 +271,7 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     box-sizing: border-box;
   }
 
-  /* X BUTTON WRAPPER */
-  .lightbox-close-wrapper {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    z-index: 100;
-  }
-
+  .lightbox-close-wrapper { position: absolute; top: 20px; right: 25px; z-index: 100; }
   .lightbox-close { 
     font-size: 30px; 
     cursor: pointer; 
@@ -273,24 +292,13 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .modal-image-container img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
   .modal-text-container { flex: 0.7; padding: 60px 50px; text-align: left; display: flex; flex-direction: column; justify-content: center; background: #fff; overflow-y: auto; }
 
-  /* MOBILE RESPONSIVE */
   @media (max-width: 768px) {
     .gallery-content-container { padding: 40px 20px; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 30px 15px; }
-    
-    /* SHRUNK MODAL */
     .lightbox { padding: 8vh 6vw; }
     .lightbox-modal { height: 75vh; width: 100%; flex-direction: column; overflow: visible; }
-    
-    /* FLOATING X BUTTON */
-    .lightbox-close-wrapper {
-      top: -60px; /* Moves it above the modal */
-      right: 0;
-    }
-    .lightbox-close {
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
+    .lightbox-close-wrapper { top: -60px; right: 0; }
+    .lightbox-close { box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
     .modal-body { flex-direction: column; overflow-y: auto; }
     .modal-image-container { border-right: none; border-bottom: 1px solid #eee; height: 40vh; flex: none; pointer-events: none; }
     .modal-text-container { padding: 30px 20px; flex: none; height: auto; }
@@ -298,7 +306,6 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
     .modal-desc { font-size: 0.95rem; }
   }
 
-  /* Extra narrow fix for small iPhones */
   @media (max-width: 380px) {
     .gallery-grid { grid-template-columns: 1fr; }
   }
