@@ -5,8 +5,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const itemFiles = import.meta.glob('../content/gallery/*.md', { eager: true });
 const allItems = Object.values(itemFiles) as any[];
 
+// Alphabetical Sort Logic (A to Z by Title)
 const sortedItems = allItems.sort((a, b) => {
-  return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime();
+  const titleA = a.frontmatter.title || "";
+  const titleB = b.frontmatter.title || "";
+  return titleA.localeCompare(titleB);
 });
 
 const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "Brooches", "Artwork", "Other"];
@@ -148,7 +151,16 @@ const categories = ["Bracelets", "Necklaces", "Rings", "Earrings", "Pendants", "
   .search-line { height: 1px; background: #999; width: 100%; }
   
   .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 80px 40px; }
-  .image-frame { aspect-ratio: 1/1; background: #fcfcfc; border: 1px solid #e0e0e0; overflow: hidden; margin-bottom: 25px; }
+  
+  /* 11:10 Aspect Ratio */
+  .image-frame { 
+    aspect-ratio: 11 / 10; 
+    background: #fcfcfc; 
+    border: 1px solid #e0e0e0; 
+    overflow: hidden; 
+    margin-bottom: 25px; 
+  }
+  
   .image-frame img { width: 100%; height: 100%; object-fit: cover; }
   
   .item-title { font-size: 1.6rem; text-transform: uppercase; margin: 0 0 15px 0; color: #111; }
