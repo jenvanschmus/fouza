@@ -27,6 +27,8 @@ const links = [
               src={`/external-links/${l.name.toLowerCase()}.png`} 
               class="social-icon" 
               alt=""
+              width="32"
+              height="32"
               onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';" 
             />
             <span class="social-fallback">{l.name}</span>
@@ -35,7 +37,7 @@ const links = [
       </div>
     </nav>
 
-    <button id="menu-toggle" class="hamburger" aria-label="Open Menu">
+    <button id="menu-toggle" class="hamburger" aria-label="Toggle Menu">
       <span class="bar"></span>
       <span class="bar"></span>
       <span class="bar"></span>
@@ -72,6 +74,16 @@ const links = [
     mobileMenu?.classList.toggle('open');
     body.classList.toggle('no-scroll');
   });
+
+  // Close menu when a link is clicked
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      menuToggle?.classList.remove('active');
+      mobileMenu?.classList.remove('open');
+      body.classList.remove('no-scroll');
+    });
+  });
 </script>
 
 <style>
@@ -82,7 +94,6 @@ const links = [
     width: 100%;
     height: 100px;
     background: #fff;
-    /* Added a solid bottom border to define the header against the white page */
     border-bottom: 1px solid #111; 
     z-index: 9999;
     display: flex;
@@ -97,11 +108,8 @@ const links = [
     align-items: center;
   }
 
-  .logo-img { 
-    height: 60px; 
-    width: auto; 
-    display: block;
-  }
+  .logo-link { display: block; line-height: 0; }
+  .logo-img { height: 65px; width: auto; display: block; }
 
   /* DESKTOP NAV */
   .nav-desktop { display: flex; align-items: center; gap: 40px; }
@@ -116,33 +124,19 @@ const links = [
   }
 
   .line-divider { width: 1px; height: 24px; background: #ddd; }
-  
-  .social-group { 
-    display: flex; 
-    gap: 20px; 
-    align-items: center;
-  }
+  .social-group { display: flex; gap: 20px; align-items: center; }
+  .social-icon { width: 32px; height: 32px; object-fit: contain; }
 
-  .social-icon { 
-    width: 28px;
-    height: 28px;
-    object-fit: contain;
-    transition: transform 0.2s ease;
-  }
+  /* Scale YouTube/Etsy specifically */
+  .social-icon[src*="youtube"], .social-icon[src*="etsy"] { transform: scale(1.2); }
 
-  .social-icon[src*="youtube"],
-  .social-icon[src*="etsy"] {
-    transform: scale(1.2);
-  }
-
-  /* Fallback text if icons are missing */
   .social-fallback { 
     display: none; 
     font-size: 0.7rem; 
     text-transform: uppercase; 
     letter-spacing: 0.1em; 
     color: #111;
-    font-family: 'Special Elite', monospace;
+    font-family: 'Special Elite', monospace !important;
   }
 
   /* HAMBURGER */
@@ -151,21 +145,23 @@ const links = [
     background: none;
     border: none;
     cursor: pointer;
-    padding: 10px;
+    padding: 15px;
+    z-index: 10001; /* Higher than overlay */
+    position: relative;
   }
 
   .bar {
     display: block;
-    width: 25px;
-    height: 2px; /* Thickened for better visibility */
+    width: 30px;
+    height: 2px;
     background: #111;
-    margin: 5px 0;
-    transition: 0.4s;
+    margin: 6px 0;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
-  .hamburger.active .bar:nth-child(1) { transform: rotate(-45deg) translate(-5px, 5px); }
+  .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(-45deg); }
   .hamburger.active .bar:nth-child(2) { opacity: 0; }
-  .hamburger.active .bar:nth-child(3) { transform: rotate(45deg) translate(-5px, -5px); }
+  .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(45deg); }
 
   /* MOBILE MENU */
   .mobile-overlay {
@@ -175,20 +171,50 @@ const links = [
     width: 100%;
     height: 100vh;
     background: #fff;
-    z-index: 9998;
-    transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    z-index: 10000;
+    transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1);
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .mobile-overlay.open { right: 0; }
-  .mobile-inner { text-align: center; }
-  .menu-label { font-family: 'Special Elite', monospace; font-size: 10px; color: #999; letter-spacing: 0.4em; margin-bottom: 30px; }
-  .mobile-nav { display: flex; flex-direction: column; gap: 20px; }
-  .mobile-link { font-size: 1.8rem; color: #111; text-decoration: none; text-transform: uppercase; letter-spacing: 0.15em; }
+  .mobile-inner { text-align: center; padding: 40px; }
+  
+  .menu-label { 
+    font-family: 'Special Elite', monospace !important; 
+    font-size: 10px; 
+    color: #999; 
+    letter-spacing: 0.4em; 
+    margin-bottom: 20px; 
+    text-transform: uppercase;
+  }
 
+  .mobile-nav { display: flex; flex-direction: column; gap: 15px; }
+  .mobile-link { 
+    font-size: 2rem; 
+    color: #111; 
+    text-decoration: none; 
+    text-transform: uppercase; 
+    letter-spacing: 0.15em; 
+  }
+
+  .mobile-divider { height: 1px; background: #eee; width: 60px; margin: 30px auto; }
+  .mobile-socials { display: flex; flex-direction: column; gap: 10px; }
+  .mobile-socials .mobile-link { font-size: 1.2rem; color: #777; }
+
+  /* --- MOBILE OPTIMIZATION --- */
   @media (max-width: 1024px) {
     .nav-desktop { display: none; }
     .hamburger { display: block; }
+    
+    .header-bar { height: 120px; } /* Taller header for mobile presence */
+    
+    .logo-link { width: 50%; } /* Logo spans halfway */
+    .logo-img { height: auto; width: 100%; max-width: 220px; }
+  }
+
+  @media (max-width: 480px) {
+    .header-bar { height: 100px; }
+    .logo-link { width: 60%; }
   }
 </style>
