@@ -43,7 +43,7 @@
     border-top: 1px solid #eee;
     background: #fff;
     position: relative;
-    z-index: 20; /* Ensures it sits above any grid backgrounds */
+    z-index: 20;
   }
 
   .footer-container {
@@ -53,7 +53,6 @@
 
   .footer-grid {
     display: grid;
-    /* Desktop: 3 equal columns */
     grid-template-columns: repeat(3, 1fr);
     gap: 60px;
     text-align: center;
@@ -68,7 +67,7 @@
   .label {
     font-family: 'Special Elite', monospace !important;
     font-size: 0.7rem;
-    color: #999; /* Darkened label */
+    color: #999;
     text-transform: uppercase;
     letter-spacing: 0.4em;
     margin: 0;
@@ -87,6 +86,8 @@
     text-transform: uppercase;
     letter-spacing: 0.15em;
     transition: opacity 0.3s ease;
+    /* FIX FOR MOBILE BLUE HIGHLIGHT */
+    -webkit-tap-highlight-color: transparent;
   }
 
   .link-list a:hover {
@@ -128,21 +129,19 @@
 
   /* --- RESPONSIVE OPTIMIZATION --- */
 
-  /* Tablet: 2 columns if needed, but 1 usually looks cleaner for this style */
   @media (max-width: 900px) {
     .footer-grid {
       gap: 50px;
     }
   }
 
-  /* Mobile: Single Column Stack */
   @media (max-width: 768px) {
     .site-footer {
       padding: 80px 20px 40px 20px;
     }
 
     .footer-grid {
-      grid-template-columns: 1fr; /* Stack columns */
+      grid-template-columns: 1fr;
       gap: 60px;
     }
 
@@ -151,7 +150,7 @@
     }
 
     .link-list a {
-      font-size: 1.1rem; /* Slightly larger for easier tapping on mobile */
+      font-size: 1.1rem;
     }
   }
 </style>
