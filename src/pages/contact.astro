@@ -2,46 +2,57 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Contact">
+<BaseLayout title="Contact // Establishing Link">
   <div class="contact-page-wrapper">
     <div class="technical-grid"></div>
 
-    <section class="contact-container">
+    <div class="wip-banner">
+      <div class="banner-content">
+        <div class="pulse-dot"></div>
+        <p class="banner-text">Communication Portal // System Calibration in Progress</p>
+        <div class="pulse-dot"></div>
+      </div>
+    </div>
+
+    <section class="contact-container building">
       <div class="header-block">
         <p class="blueprint-label">Phase // 03 — Communication</p>
         <h1 class="page-title">Connect</h1>
       </div>
 
       <div class="contact-content">
-        <p class="instruction-text">
-          Submit your inquiry regarding archive pieces or custom commissions via the terminal below.
-        </p>
         
-        <form id="contact-form" class="inquiry-form">
+        <div class="status-notice">
+          <p class="instruction-text">
+            The archive’s communication lines are currently being established. <br/>
+            <strong>The contact terminal will be fully operational shortly.</strong>
+          </p>
+        </div>
+        
+        <form id="contact-form" class="inquiry-form pending-state">
           <div class="form-row">
             <div class="input-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required placeholder="Full Name..." />
+              <label>Name</label>
+              <input type="text" disabled placeholder="System Configuring..." />
             </div>
           </div>
 
           <div class="form-row">
             <div class="input-group">
-              <label for="subject">Regarding</label>
-              <input type="text" id="subject" name="subject" required placeholder="General Inquiry / Commission..." />
+              <label>Return Email</label>
+              <input type="email" disabled placeholder="System Configuring..." />
             </div>
           </div>
 
           <div class="form-row">
             <div class="input-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="5" required placeholder="Enter details..."></textarea>
+              <label>Message</label>
+              <textarea rows="5" disabled placeholder="Establishing secure transmission link..."></textarea>
             </div>
           </div>
 
-          <button type="submit" class="submit-btn">
-            Transmit Inquiry
-            <span class="btn-detail"></span>
+          <button type="button" class="submit-btn locked" disabled>
+            Link Pending
           </button>
         </form>
 
@@ -52,7 +63,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
           <div class="detail-item">
             <span class="tag">Status</span>
-            <span class="val">Accepting Commissions</span>
+            <span class="val calibration-val">Finalizing Integration</span>
           </div>
         </div>
       </div>
@@ -60,176 +71,96 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
 </BaseLayout>
 
-<script>
-  const form = document.getElementById('contact-form') as HTMLFormElement;
-
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(form);
-    const name = formData.get('name');
-    const subject = formData.get('subject');
-    const message = formData.get('message');
-
-    // Email Configuration
-    const emailTo = "curiosity@fouza.com";
-    const emailSubject = encodeURIComponent(`Fouza Inquiry: ${subject}`);
-    const emailBody = encodeURIComponent(`Inquiry from: ${name}\n\nMessage:\n${message}`);
-
-    // This triggers the local mail client with pre-filled data
-    window.location.href = `mailto:${emailTo}?subject=${emailSubject}&body=${emailBody}`;
-  });
-</script>
-
 <style>
-  .contact-page-wrapper {
-    position: relative;
-    min-height: calc(100vh - 100px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 20px;
-    background: #fff;
+  .contact-page-wrapper { 
+    position: relative; 
+    min-height: calc(100vh - 100px); 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    padding: 120px 20px 80px; 
+    background: #fff; 
   }
 
-  .technical-grid {
+  .technical-grid { 
+    position: absolute; 
+    inset: 0; 
+    opacity: 0.04; 
+    pointer-events: none; 
+    background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); 
+    background-size: 40px 40px; 
+  }
+
+  /* CALIBRATION BANNER */
+  .wip-banner {
     position: absolute;
-    inset: 0;
-    opacity: 0.04;
-    pointer-events: none;
-    background-image: 
-      linear-gradient(#000 1px, transparent 1px),
-      linear-gradient(90deg, #000 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-
-  .contact-container {
-    position: relative;
-    z-index: 10;
-    max-width: 600px;
+    top: 0;
+    left: 0;
     width: 100%;
-    text-align: center;
-  }
-
-  .blueprint-label {
-    font-family: 'Special Elite', monospace !important;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5em;
-    color: #999; /* Darkened from #bbb */
-    margin-bottom: 20px;
-  }
-
-  .page-title {
-    font-size: 3.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    margin-bottom: 40px;
-    color: #111;
-  }
-
-  .instruction-text {
-    max-width: 450px;
-    margin: 0 auto 50px;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: #444; /* Darkened */
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  /* Form Styling */
-  .inquiry-form {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .input-group label {
-    font-family: 'Special Elite', monospace !important;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: #888;
-  }
-
-  input, textarea {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-    font-size: 1rem;
-    color: #111;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-
-  input:focus, textarea:focus {
-    border-bottom-color: #111;
-  }
-
-  .submit-btn {
-    margin-top: 20px;
-    background: transparent;
-    border: 1px solid #111;
-    padding: 15px 30px;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: #111;
-    position: relative;
-  }
-
-  .submit-btn:hover {
     background: #111;
     color: #fff;
-  }
-
-  /* Footer details */
-  .details-footer {
+    padding: 15px 0;
+    z-index: 100;
     display: flex;
     justify-content: center;
-    gap: 60px;
-    margin-top: 80px;
-    padding-top: 40px;
-    border-top: 1px solid #f2f2f2;
+    border-bottom: 1px solid #333;
   }
 
-  .detail-item {
+  .banner-content {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-    text-align: left;
+    align-items: center;
+    gap: 20px;
   }
 
-  .tag {
+  .banner-text {
     font-family: 'Special Elite', monospace !important;
-    font-size: 9px;
-    color: #999;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.25em;
+    margin: 0;
   }
 
-  .val {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    color: #111; /* Darkened */
-    letter-spacing: 0.1em;
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    background: #888;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
   }
 
-  @media (max-width: 768px) {
-    .page-title { font-size: 2.5rem; }
-    .details-footer { flex-direction: column; gap: 30px; text-align: center; }
-    .detail-item { text-align: center; }
+  @keyframes pulse {
+    0% { opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { opacity: 0.2; }
   }
+
+  .contact-container { position: relative; z-index: 10; max-width: 600px; width: 100%; text-align: center; }
+  .contact-container.building { opacity: 0.85; }
+
+  .blueprint-label { font-family: 'Special Elite', monospace !important; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5em; color: #999; margin-bottom: 20px; }
+  .page-title { font-size: 3.5rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 40px; color: #111; }
+  
+  .instruction-text { max-width: 450px; margin: 0 auto 50px; font-size: 0.9rem; line-height: 1.6; color: #444; text-transform: uppercase; letter-spacing: 0.1em; }
+  .status-notice { border-left: 1px solid #111; padding-left: 20px; margin-bottom: 50px; text-align: left; }
+
+  /* Pending State Styling */
+  .pending-state { pointer-events: none; opacity: 0.6; }
+  .pending-state input, .pending-state textarea { background: #fcfcfc; border-bottom-color: #eee; color: #bbb; }
+  
+  .submit-btn.locked { 
+    background: #f4f4f4; 
+    border-color: #ddd; 
+    color: #999; 
+    cursor: wait;
+    text-decoration: none;
+  }
+
+  .details-footer { display: flex; justify-content: center; gap: 60px; margin-top: 80px; padding-top: 40px; border-top: 1px solid #f2f2f2; }
+  .detail-item { display: flex; flex-direction: column; gap: 5px; text-align: left; }
+  .tag { font-family: 'Special Elite', monospace !important; font-size: 9px; color: #999; text-transform: uppercase; letter-spacing: 0.2em; }
+  .val { font-size: 0.8rem; text-transform: uppercase; color: #111; letter-spacing: 0.1em; }
+  .calibration-val { color: #666; font-style: italic; }
+
+  @media (max-width: 768px) { .page-title { font-size: 2.5rem; } .details-footer { flex-direction: column; gap: 30px; text-align: center; } .detail-item { text-align: center; } }
 </style>
