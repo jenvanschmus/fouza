@@ -2,7 +2,7 @@
 title: Kid Angel
 category:
   - Pendants
-image: /site-assets/gallery/pmss08-lg.gif
+image: /site-assets/gallery/kid-angel.jpg
 date: 2026-01-04T09:01:00.000-08:00
 ---
 
