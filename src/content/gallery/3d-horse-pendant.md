@@ -1,5 +1,5 @@
 ---
-title: 3D Horse Pendant
+title: Hand Carved Horse Pendant
 category:
   - Pendants
 image: /site-assets/gallery/year-of-the-horse-necklace.jpg
