@@ -2,7 +2,7 @@
 title: Butterfly Ring
 category:
   - Rings
-image: /site-assets/gallery/butterfly-lg.gif
+image: /site-assets/gallery/buterfly-birthstone-topaz-diamonds-ring.jpg
 date: 2026-01-03T20:29:00.000-08:00
 ---
 
