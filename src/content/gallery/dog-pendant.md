@@ -1,5 +1,5 @@
 ---
-title: Dog Pendant
+title: Hand Carved Dog Pendant
 category:
   - Pendants
 image: /site-assets/gallery/year-of-the-dog-pendant.jpg
