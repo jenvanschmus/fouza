@@ -20,14 +20,6 @@
         </div>
       </div>
 
-      <div class="col">
-        <h4 class="label">Inquiries</h4>
-        <div class="link-list">
-          <a href="mailto:curiosity@fouza.com" class="email-text">curiosity@fouza.com</a>
-          <span class="location-tag">California Workshop</span>
-        </div>
-      </div>
-
     </div>
 
     <div class="footer-bottom">
@@ -53,9 +45,13 @@
 
   .footer-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* Changed to 2 columns */
+    grid-template-columns: repeat(2, 1fr);
     gap: 60px;
     text-align: center;
+    /* Narrowed the grid slightly so 2 columns don't drift to the extreme edges */
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   .col {
@@ -86,26 +82,11 @@
     text-transform: uppercase;
     letter-spacing: 0.15em;
     transition: opacity 0.3s ease;
-    /* FIX FOR MOBILE BLUE HIGHLIGHT */
     -webkit-tap-highlight-color: transparent;
   }
 
   .link-list a:hover {
     opacity: 0.5;
-  }
-
-  .email-text {
-    text-transform: lowercase !important;
-    font-family: sans-serif;
-    letter-spacing: 0.05em !important;
-  }
-
-  .location-tag {
-    font-size: 0.75rem;
-    color: #bbb;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    margin-top: 5px;
   }
 
   .footer-bottom {
