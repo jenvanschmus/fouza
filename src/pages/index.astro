@@ -9,13 +9,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <div class="hero-overlay-container">
       <div class="hero-left-overlay">
-        <div class="etsy-promotion-box">
-          <p class="cta-label">Workshop // Available Pieces</p>
-          <h2 class="etsy-title">Visit my Etsy shop</h2>
-          <a href="https://www.etsy.com/shop/fouza" target="_blank" class="hero-cta-button">
-            Go to Shop
+        <div class="etsy-minimal-callout">
+          <p class="cta-label">Available Pieces</p>
+          <a href="https://www.etsy.com/shop/fouza" target="_blank" class="etsy-text-link">
+            Visit My Etsy <span class="arrow">→</span>
           </a>
-          <div class="mechanical-detail"></div>
         </div>
       </div>
     </div>
@@ -40,17 +38,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </p>
 
         <p>
-        I began training in earnest both with professional schooling and master goldsmiths. I&#39;ve been doing it now for over 25 years and I still love it. There are always new challenges to tackle, wonderful people to meet, problems to solve, and itsy-bitsy details to work out.
+        I began training in earnest both with professional schooling and master goldsmiths. I've been doing it now for over 25 years and I still love it. There are always new challenges to tackle, wonderful people to meet, problems to solve, and itsy-bitsy details to work out.
         </p>
 
-        <p class="cta-text">
-          If you have any questions about what you see here, or if you'd like to order something special for yourself or a loved one, please feel free to <a href="/contact">contact me</a>. I also have an <a href="https://www.etsy.com/shop/fouza" target="_blank">Etsy Store</a>, where you can find many things to tickle your fancy.
-          Thanks for taking the time to read my story! If you're dying for more, check out my <a href="https://www.instagram.com/jen.van.schmus/" target="_blank">Instagram account</a>.
-        </p>
+        <div class="bio-footer-grid">
+          <div class="footer-text-col">
+            <p class="cta-text">
+              If you have any questions about what you see here, or if you'd like to order something special for yourself or a loved one, please feel free to <a href="/contact">contact me</a>. I also have an <a href="https://www.etsy.com/shop/fouza" target="_blank">Etsy Store</a>, where you can find many things to tickle your fancy.
+              <br/><br/>
+              Thanks for taking the time to read my story! If you're dying for more, check out my <a href="https://www.instagram.com/jen.van.schmus/" target="_blank">Instagram account</a>.
+            </p>
 
-        <div class="signature-block">
-          <p>Keep on smiling,</p>
-          <p class="name">Jen Van Schmus</p>
+            <div class="signature-block">
+              <p>Keep on smiling,</p>
+              <p class="name">Jen Van Schmus</p>
+            </div>
+          </div>
+
+          <div class="footer-image-col">
+            <div class="headshot-frame">
+              <img src="/site-assets/headshot.jpg" alt="Jen Van Schmus" class="bio-headshot" />
+              <div class="frame-accent"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -64,15 +74,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <style>
-  /* TECHNICAL GRID */
+  /* Styles remain consistent with previous design */
   .technical-grid {
     position: absolute;
     inset: 0;
     opacity: 0.04;
     pointer-events: none;
-    background-image: 
-      linear-gradient(#000 1px, transparent 1px),
-      linear-gradient(90deg, #000 1px, transparent 1px);
+    background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px);
     background-size: 40px 40px;
     z-index: 1;
   }
@@ -80,7 +88,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .hero-wrapper {
     position: relative;
     width: 100%;
-    height: 800px;
+    height: 80vh;
+    min-height: 600px;
     background-color: #fff;
     border-bottom: 1px solid #eee;
     overflow: hidden;
@@ -106,56 +115,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     padding: 0 40px;
   }
 
-  .hero-left-overlay {
-    width: 100%;
-    max-width: 500px;
+  .etsy-minimal-callout {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5px;
+    background: rgba(255,255,255,0.9);
+    padding: 20px 30px;
+    border-left: 3px solid #111;
+    backdrop-filter: blur(10px);
   }
 
-  .etsy-promotion-box {
-    border: 1px solid #111;
-    padding: 60px 40px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(5px);
-    box-shadow: 20px 20px 0px rgba(0,0,0,0.1);
-    position: relative;
-  }
-
-  .etsy-title {
-    font-size: 2rem;
+  .etsy-text-link {
+    font-size: 1.4rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin-bottom: 30px;
     color: #111;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
+
+  .etsy-text-link .arrow { transition: transform 0.3s ease; }
+  .etsy-text-link:hover .arrow { transform: translateX(8px); }
 
   .cta-label {
     font-family: 'Special Elite', monospace !important;
     font-size: 10px;
     letter-spacing: 0.4em;
     color: #888;
-    margin-bottom: 15px;
     text-transform: uppercase;
+    margin: 0;
   }
 
-  .hero-cta-button {
-    display: inline-block;
-    padding: 15px 40px;
-    border: 1px solid #111;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    font-size: 0.9rem;
-    background: #111;
-    color: #fff;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    /* FIX FOR MOBILE BLUE HIGHLIGHT */
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .hero-cta-button:hover { background: #fff; color: #111; }
-
-  /* STORY SECTION */
   .story-section { 
     position: relative;
     padding: 120px 0; 
@@ -168,7 +161,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .story-container { 
     position: relative;
     z-index: 2;
-    max-width: 700px; 
+    max-width: 900px; 
     width: 100%; 
     padding: 0 40px; 
   }
@@ -187,14 +180,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .story-title { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.1; color: #111; }
   .story-body { display: flex; flex-direction: column; gap: 30px; text-align: left; }
   .story-body p { font-size: 1.1rem; line-height: 1.8; color: #333; }
+
+  .bio-footer-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 50px;
+    margin-top: 40px;
+    align-items: flex-start;
+  }
   
   .cta-text { 
-    margin-top: 20px; 
-    padding: 40px; 
-    background: #f9f9f9; 
+    padding: 30px; 
+    background: #fcfcfc; 
     border-left: 2px solid #111;
     font-size: 1rem !important;
     color: #444;
+    margin: 0;
   }
   
   .cta-text a { 
@@ -202,8 +203,33 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-weight: bold; 
     text-decoration: underline; 
     text-underline-offset: 4px;
-    /* FIX FOR MOBILE BLUE HIGHLIGHT */
     -webkit-tap-highlight-color: transparent;
+  }
+
+  .headshot-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1.2;
+    background: #f0f0f0;
+    overflow: hidden;
+    border: 1px solid #eee;
+  }
+
+  .bio-headshot {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .frame-accent {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    width: 50%;
+    height: 50%;
+    border-right: 1px solid #111;
+    border-bottom: 1px solid #111;
+    pointer-events: none;
   }
 
   .signature-block { margin-top: 40px; text-align: left; }
@@ -213,14 +239,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .long-line { flex: 1; height: 1px; background: #111; }
   .gear-dot { width: 8px; height: 8px; border: 1px solid #111; border-radius: 50%; }
 
-  /* STANDARD MOBILE OPTIMIZATION */
-  @media (max-width: 1024px) {
-    .hero-wrapper { height: 600px; }
-    .hero-left-overlay { max-width: 100%; }
-    .etsy-promotion-box { padding: 40px 20px; }
+  @media (max-width: 900px) {
+    .bio-footer-grid { grid-template-columns: 1fr; }
+    .footer-image-col { order: -1; max-width: 300px; margin: 0 auto 30px; }
   }
 
   @media (max-width: 768px) {
+    .hero-wrapper { height: 60vh; }
     .story-header { margin-bottom: 40px; }
     .story-title { font-size: 2rem; }
     .story-body p { font-size: 1rem; }
